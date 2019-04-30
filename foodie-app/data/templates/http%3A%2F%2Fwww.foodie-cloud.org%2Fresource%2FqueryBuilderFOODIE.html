@@ -1,0 +1,655 @@
+<semantic-search
+    categories='{
+                    "<http://www.w3.org/2001/XMLSchema#Decimal>": [{
+                      "kind": "numeric-range",
+                      "queryPattern": "{
+                        $subject ?__relation__ ?literal .
+                        FILTER(?literal >= ?__numericRangeBeginValue__) .
+                        FILTER(?literal <= ?__numericRangeEndValue__) .
+                      }"
+                    }],
+                    "<http://www.w3.org/2000/01/rdf-schema#Literal>": [{
+                      "kind": "literal",
+                      "queryPattern": "{
+                        $subject ?__relation__ ?__literal__ .
+                      }"
+                    }],
+                    "<http://www.w3.org/2001/XMLSchema#date>": [{
+                       "kind": "date-range",
+                       "queryPattern": "
+                         {
+                           $subject ?__relation__ ?dateRaw .
+                           BIND(STRDT(CONCAT(STR(?dateRaw),\"T00:00:00Z\"), <http://www.w3.org/2001/XMLSchema#dateTime>) as ?date)
+                           BIND(STRDT(CONCAT(STR(?__dateEndValue__),\"T00:00:00Z\"), <http://www.w3.org/2001/XMLSchema#dateTime>) as ?dateTimeEndValue)
+                           BIND(STRDT(CONCAT(STR(?__dateBeginValue__),\"T00:00:00Z\"), <http://www.w3.org/2001/XMLSchema#dateTime>) as ?dateTimeBeginValue)
+                           FILTER(?date <= ?dateTimeEndValue) .
+                           FILTER(?date >= ?dateTimeBeginValue) .
+                         }"
+                      }]
+                 }'
+    relations='{
+                   "<http://www.metaphacts.com/ontology/sample/fan_of>": [
+                     {
+                       "kind": "resource",
+                       "queryPattern": "
+                       {
+                         $subject <http://xmlns.com/foaf/0.1/topic_interest>/<http://purl.org/dc/terms/creator> ?__value__ .
+                       }
+                       "
+                     }
+                   ]
+                 }'
+    search-profile='{ 
+                      "categories": [{
+                                       "iri": "<http://foodie-cloud.com/model/foodie#ManagementZone>",
+                                       "label": "Management Zone",
+                                       "thumbnail": "http://cdn.onlinewebfonts.com/svg/img_177432.png"
+                                     },
+                    								 
+                                     {
+                                       "iri": "<http://foodie-cloud.com/model/foodie#CropType>",
+                                       "label": "Crop Type",
+                                       "thumbnail": "https://www.pragya.org/crop-advisory/assets/image/crop.png"
+                                     },
+                                     
+                    								 {
+                                       "iri": "<http://foodie-cloud.com/model/foodie#CropSpecies>",
+                                       "label": "Crop Species",
+                                       "thumbnail": "https://cdn1.iconfinder.com/data/icons/mixed-bag/32/sprout-512.png"
+                                     },
+                    								 {
+                                       "iri": "<http://foodie-cloud.com/model/foodie#Intervention>",
+                                       "label": "Intervention",
+                                       "thumbnail": "http://www.contractil.com/wp-content/uploads/2015/12/pest-control.png"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie#MachineType>",
+                                       "label": "MachineType",
+                                       "thumbnail": "https://previews.123rf.com/images/anthonycz/anthonycz1310/anthonycz131000038/22786292-industrial-and-agricultural-icon-Stock-Vector.jpg"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie#TractorType>",
+                                       "label": "TractorType",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/1192-200.png"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie-es#StationClose>",
+                                       "label": "StationClose",
+                                       "thumbnail": "http://cdn.onlinewebfonts.com/svg/img_239346.png"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie-es#Station>",
+                                       "label": "Station",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/1133-200.png"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie#Plot>",
+                                       "label": "Plot",
+                                       "thumbnail": "https://openclipart.org/image/2400px/svg_to_png/194020/land-parcels.png"
+                                     },
+                                     {
+                                       "iri": "<http://foodie-cloud.com/model/foodie#Alert>",
+                                       "label": "Alert",
+                                       "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/VisualEditor_-_Icon_-_Alert.svg/600px-VisualEditor_-_Icon_-_Alert.svg.png"
+                                     }, 
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie#OriginTypeValue>",
+                                       "label": "Origin Type Value",
+                                       "thumbnail": "https://sites.google.com/site/davidnchung/Origin.jpg"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie-es#PestResultValue>",
+                                       "label": "Pest Result Value",
+                                       "thumbnail": "https://image.flaticon.com/icons/png/512/46/46491.png"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie-es#Pest>",
+                                       "label": "Pest",
+                                       "thumbnail": "http://www.tacticalpestcontrolllc.com/wp-content/uploads/2014/07/icon_32120.png"
+                                     },
+                    								{
+                                       "iri": "<http://foodie-cloud.com/model/foodie#ProductionType>",
+                                       "label": "Production Type",
+                                       "thumbnail": "http://www.rcma.com/wp-content/themes/rcma/assets/img/icon-csr-4.png"
+                                     },
+                    								{
+                    									"iri": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>",
+                                       "label": "Holding",
+                                       "thumbnail": "https://enprombg.com/wp-content/uploads/2014/09/land-512.png"
+                                     },
+                    								{
+                    									"iri": "<http://inspire.ec.europa.eu/schemas/af/3.0#Site>",
+                                       "label": "Site",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/18711-200.png"
+                                     },
+                    								{
+                    									"iri": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#ResponsibleParty>",
+                                       "label": "ResponsibleParty",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/993506-200.png"
+                                     },
+                    								{
+                    									"iri": "<http://foodie-cloud.com/model/foodie-es#Adviser>",
+                                       "label": "Adviser",
+                                       "thumbnail": "http://publishersagentsandfilms.com/theprofessionalconnection/wp-content/uploads/2016/09/financial-advisor-300x300.png"
+                                     },
+                    								{
+                    									"iri": "<http://foodie-cloud.com/model/foodie-es#CampaignType>",
+                                       "label": "Campaign Type",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/416758-200.png"
+                                     },
+                    								{
+                    									"iri": "<http://foodie-cloud.com/model/foodie#TreatmentPlan>",
+                                       "label": "Treatment Plan",
+                                       "thumbnail": "https://png.icons8.com/windows/540/treatment-plan.png"
+                                     },
+                    								{
+                    									"iri": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#Address>",
+                                       "label": "Address",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/14236-200.png"
+                                     },
+                    								{
+                    									"iri": "<http://foodie-cloud.com/model/foodie#Treatment>",
+                                       "label": "Treatment",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/43134-200.png"
+                                     },
+                    								{
+                    									"iri": "<http://foodie-cloud.com/model/foodie#ProductPreparation>",
+                                       "label": "Product Preparation",
+                                       "thumbnail": "http://www.siddharthchemicalsgoa.com/wp-content/uploads/2016/08/chemical-experimental-icons-84877.png"
+                                     },
+                    								{
+                    									"iri": "<http://foodie-cloud.com/model/foodie#Product>",
+                                       "label": "Product",
+                                       "thumbnail": "https://image.flaticon.com/icons/png/512/13/13386.png"
+                                     },
+                    								{
+                                       "iri": "<http://www.w3.org/2001/XMLSchema#Decimal>",
+                                       "label": "Height",
+                                       "thumbnail": "https://d30y9cdsu7xlg0.cloudfront.net/png/142747-200.png"
+                                     },
+                                     {
+                                       "iri": "<http://www.w3.org/2001/XMLSchema#date>",
+                                       "label": "Time",
+                                       "thumbnail": "http://moziru.com/images/date-clipart-time-schedule-15.png"
+                                     }
+                                  ],
+                      "relations": [{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#cropSpecies>",
+                                      "label": "crop type name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ManagementZone>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#CropType>"
+                                    },
+                                    {
+                                      "iri": "<http://foodie-cloud.com/model/foodie#holdingZone>",
+                                      "label": "plot name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ManagementZone>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#Plot>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#holdingSite>",
+                                      "label": "holding name",
+                                      "hasDomain": "<http://inspire.ec.europa.eu/schemas/af/3.0#Site>",
+                                      "hasRange": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#holdingPlot>",
+                                      "label": "site name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Plot>",
+                                      "hasRange": "<http://inspire.ec.europa.eu/schemas/af/3.0#Site>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#interventionZone>",
+                                      "label": "management zone name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Intervention>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#ManagementZone>"
+                                    },
+                    								
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#machine>",
+                                      "label": "machine type name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Intervention>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#MachineType>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#machine>",
+                                      "label": "machine type name",
+                                      "hasDomain": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#MachineType>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#tractor>",
+                                      "label": "tractor type name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Intervention>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#TractorType>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#tractor>",
+                                      "label": "tractor type name",
+                                      "hasDomain": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#TractorType>"
+                                    },
+                                    {
+                                      "iri": "<http://foodie-cloud.com/model/foodie#originType>",
+                                      "label": "origin type value",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ManagementZone>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#OriginTypeValue>"
+                                    },
+                                    {
+                                      "iri": "<http://foodie-cloud.com/model/foodie#zoneAlert>",
+                                      "label": "alert name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ManagementZone>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#Alert>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#alertZone>",
+                                      "label": "management zone name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Alert>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#ManagementZone>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#pestResultValueManagementZone>",
+                                      "label": "management zone name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#PestResultValue>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#ManagementZone>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#pestResultValuePest
+
+>",
+                                      "label": "pest name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#PestResultValue>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie-es#Pest>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#productionTypeManagementZone>",
+                                      "label": "management zone name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ProductionType>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#ManagementZone>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#stationCloseManagementZone>",
+                                      "label": "management zone name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#StationClose>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#ManagementZone>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#stationCloseStation>",
+                                      "label": "station name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#StationClose>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie-es#Station>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#stationHolding>",
+                                      "label": "holding name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#Station>",
+                                      "hasRange": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#siteResponsibleParty>",
+                                      "label": "responsible party name",
+                                      "hasDomain": "<http://inspire.ec.europa.eu/schemas/af/3.0#Site>",
+                                      "hasRange": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#ResponsibleParty>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#supervisor>",
+                                      "label": "responsible party name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Intervention>",
+                                      "hasRange": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#ResponsibleParty>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#operator>",
+                                      "label": "responsible party name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Intervention>",
+                                      "hasRange": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#ResponsibleParty>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#adviserHolding>",
+                                      "label": "holding name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#Adviser>",
+                                      "hasRange": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#adviserResponsibleParty>",
+                                      "label": "responsible party name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#Adviser>",
+                                      "hasRange": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#ResponsibleParty>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#siteAddress>",
+                                      "label": "Address (country, city)",
+                                      "hasDomain": "<http://inspire.ec.europa.eu/schemas/af/3.0#Site>",
+                                      "hasRange": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#Address>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#speciesPlot>",
+                                      "label": "plot name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#CropSpecies>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#Plot>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#crop>",
+                                      "label": "crop species",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Plot>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#CropSpecies>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#campaignHolding>",
+                                      "label": "holding name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie-es#CampaignType>",
+                                      "hasRange": "<http://inspire.ec.europa.eu/schemas/af/3.0#Holding>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#productionTypeCampaignType>",
+                                      "label": "campaign type",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ProductionType>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie-es#CampaignType>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#campaign>",
+                                      "label": "campaign type",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#TreatmentPlan>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie-es#CampaignType>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie-es#treatmentIntervention>",
+                                      "label": "intervention type",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Treatment>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#Intervention>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#plan>",
+                                      "label": "treatment plan type",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Treatment>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#TreatmentPlan>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#preparationPlan>",
+                                      "label": "treatment plan",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ProductPreparation>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#TreatmentPlan>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#preparationProduct>",
+                                      "label": "product",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#ProductPreparation>",
+                                      "hasRange": "<http://foodie-cloud.com/model/foodie#Product>"
+                                    },
+                    								{
+                                      "iri": "<http://foodie-cloud.com/model/foodie#manufacturer>",
+                                      "label": "responsible party name",
+                                      "hasDomain": "<http://foodie-cloud.com/model/foodie#Product>",
+                                      "hasRange": "<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#ResponsibleParty>"
+                                    }
+                    							]
+                    }'
+>
+<!--    INSTEAD OF "categories"
+												,"categoriesQuery": "
+        prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        prefix owl: <http://www.w3.org/2002/07/owl#>
+        prefix foodie: <http://foodie-cloud.com/model/foodie#>
+
+				SELECT ?category ?label ?description ?thumbnail WHERE {
+
+				} ORDER BY ?order 
+				VALUES (?category ?label ?description ?thumbnail ?order) {
+  			(foodie:ManagementZone \"Management Zone\" \"Management Zone\" 		\"http://cdn.onlinewebfonts.com/svg/img_177432.png\" 1)
+  			(foodie:CropType \"Crop Type\" \"Crop Type\" \"https://www.pragya.org/crop-advisory/assets/image/crop.png\" 2)
+			 	}"
+-->
+<!-- ORIGINAL QUERY
+															 SELECT DISTINCT ?suggestion ?label
+                               WHERE {
+                               ?suggestion a|(a/rdfs:subClassOf*) ?__range__ .
+                               ?suggestion rdfs:label ?label .  
+                               FILTER REGEX(STR(?label), ?__token__, \"i\")
+                               BIND(STRLEN(?label) as ?length)
+                              }
+                               ORDER BY ?length LIMIT 100",
+-->
+    <semantic-search-query-builder             resource-selector='{"query":"
+                               SELECT DISTINCT ?suggestion ?label
+                               WHERE {
+                               ?suggestion a ?__range__ .
+                               FILTER REGEX(STR(?label), ?__token__, \"i\")
+                               BIND(STRLEN(?label) as ?length)
+                               {
+  																SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (rdfs:label) ?label.
+															    }
+				                       }
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (foodie:variety) ?label.
+															    }
+															 }
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (foodie:code) ?label.
+															    }
+															 }
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (foodie-es:pestName) ?label.
+															    }
+															 }
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (foodie-es:holdingName) ?label.
+															    }
+															 }  
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (iso19115-citation:country) ?label.
+															    }
+															 }
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (iso19115-citation:city) ?label.
+															    }
+															 }
+                               UNION 
+															 {
+																  SELECT DISTINCT ?suggestion ?label WHERE {
+																  ?suggestion (foodie:description) ?label.
+															    }
+															 }
+															 
+                               }
+                               ORDER BY ?length LIMIT 100",
+
+                               "noSuggestionsTemplate":"{{> noSuggestionTemplate}}",
+                               "suggestionTupleTemplate":"{{> suggestionTemplate}}"
+                               }'
+          >            
+      		<template id="suggestionTemplate"> 
+                      <semantic-link class="grid-resource-link" uri="{{suggestion.value}}">{{label.value}}</semantic-link>
+            </template>
+            <template id="noSuggestionTemplate">
+              <b>No data available</b>
+            </template>
+    </semantic-search-query-builder>
+    <div data-flex-layout="row stretch-stretch">
+        <div
+            data-flex-self="size-1of3"
+            style="flex: 0 0 20px;"
+        >
+            <semantic-search-facet
+                value-categories='{
+          "<http://www.w3.org/2001/XMLSchema#date>": {
+             "kind": "date-range",
+             "valuesQuery": "
+             SELECT ?dateBeginValue ?dateEndValue WHERE {
+               <http://www.bigdata.com/queryHints#Group> <http://www.bigdata.com/queryHints#optimizer> \"None\".
+               $subject ?__relation__ ?dateBeginValue .
+               BIND(?dateBeginValue as ?dateEndValue) .
+             } ORDER BY ?dateBeginValue"
+          },
+          "<http://www.w3.org/2001/XMLSchema#Decimal>": {
+            "kind": "numeric-range",
+            "valuesQuery": "
+              SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                $subject ?__relation__ ?literal .
+              }
+              GROUP BY ?literal
+              ORDER BY ?literal
+            "
+          },
+          "<http://www.w3.org/2000/01/rdf-schema#Literal>": {
+            "kind": "literal",
+            "valuesQuery": "
+              SELECT ?literal (COUNT(DISTINCT $subject) AS ?count) WHERE {
+                $subject ?__relation__ ?literal .
+              } 
+              GROUP BY ?literal
+              ORDER BY ?literal
+            "
+          }
+        }'
+            ></semantic-search-facet>
+        </div>
+      
+        <semantic-search-result-holder>
+            <div data-flex-self="md-full">
+                <semantic-search-result>
+                    <mp-sparql-result-counts
+                        id="query-count"
+                        query="SELECT DISTINCT * {}"
+                        template='{{#if hasLimit}} <bs-alert bs-style="warning">
+                                               Showing {{numberOfResults}} of {{totalNumberOfResults}} matches. <strong>Please, refine your search.</strong> </bs-alert>
+                                               {{else}}<span> found {{numberOfResults}} matches </span>{{/if}}'
+                    >
+                    </mp-sparql-result-counts>
+                </semantic-search-result>
+                <bs-tabs
+                    unmount-on-exit="true"
+                    id="search-results"
+                    animation="false"
+                >
+                    <bs-tab
+                        event-key="1"
+                        title="Grid"
+                    >
+                        <bs-alert bs-style="info"> Only entities with image representation are shown in the Grid! </bs-alert>
+                        <semantic-search-result>
+                            <semantic-table
+                                id="grid-result"
+                                query='
+                                  PREFIX schema: <http://schema.org/>
+  
+                                  SELECT DISTINCT ?subject ?thumbnail WHERE {
+                                    OPTIONAL { ?subject schema:thumbnail ?image  }
+  
+                                    BIND(
+                                      REPLACE(
+                                        COALESCE(
+                                          STR(?image),
+                                          "//upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/200px-No_image_available.svg.png"
+                                        ),
+                                        "//", "http://"
+                                      ) as ?thumbnail
+                                    ).
+                                  }'
+                                tuple-template="{{>tupleTemplate}}"
+                                options:='{"showFilter":false, "resultsPerPage":16}'
+                            >
+                                <template id="tupleTemplate">
+                    <div class="rs-grid-element text-center panel panel-default">
+                      <div class="panel-body">
+                        <img src="{{thumbnail.value}}" style="height:120px;max-width:150px;" class="img-rounded">
+                      </div>
+                      <div class="panel-footer" style="position: relative">
+                        <semantic-link class="grid-resource-link" uri="{{subject.value}}"></semantic-link>
+                      </div>
+                    </div>
+                  </template>
+                            </semantic-table>
+                        </semantic-search-result>
+                    </bs-tab>
+                    <bs-tab
+                        event-key="2"
+                        title="Table"
+                    >
+                        <semantic-search-result>
+                            <semantic-table
+                                id="table-result"
+                                query="SELECT DISTINCT ?subject WHERE { }"
+                                options='{"showFilter":false, "resultsPerPage":10'
+                            >
+                            </semantic-table>
+                        </semantic-search-result>
+                    </bs-tab>
+                    <bs-tab
+                        event-key="4"
+                        title="Carousel"
+                    >
+                        <semantic-search-result>
+                            <semantic-carousel
+                                id="carousel-result"
+                                query='
+                                    PREFIX schema: <http://schema.org/>
+  
+                                    SELECT DISTINCT ?subject ?thumbnail WHERE {
+                                      OPTIONAL { ?subject schema:thumbnail ?image  }
+                                      BIND(
+                                        REPLACE(
+                                          COALESCE(
+                                            STR(?image),
+                                            "//upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/200px-No_image_available.svg.png"
+                                          ),
+                                          "//", "http://"
+                                        ) as ?thumbnail
+                                      ).
+                                    }'
+                                tuple-template="{{> tupleTemplate}}"
+                                options='{"centerMode":true, "dots":false}'
+                            >
+                                <template id="tupleTemplate">
+                    <div class="text-center panel panel-default" style="border:none;margin-right:20px;font-size:12px;height:300px;width: 100%;">
+                      <div class="panel-body" style="height: 280px;">
+                        <img src="{{thumbnail.value}}" style="max-height:260px; margin: 0 auto;" class="img-rounded">
+                      </div>
+                      <div class="panel-footer" style="position: relative;  border: none;">
+                        <semantic-link class="grid-resource-link" uri="{{subject.value}}"></semantic-link>
+                      </div>
+                    </div>
+                  </template>
+
+                            </semantic-carousel>
+                        </semantic-search-result>
+                    </bs-tab>
+                </bs-tabs>
+
+                <bs-panel>
+                    <semantic-search-result>
+                        <mp-sparql-download
+                            id="csv-download"
+                            query="SELECT * WHERE { }"
+                            header="text/csv"
+                            filename="csv-result.csv"
+                        >
+                            <button class="btn btn-default">Download CSV</button>
+                        </mp-sparql-download>
+                    </semantic-search-result>
+                    <semantic-search-result>
+                        <mp-sparql-download
+                            id="json-download"
+                            query="SELECT * WHERE { }"
+                            header="application/sparql-results+json"
+                            filename="json-result.json"
+                        >
+                            <button class="btn btn-default">Download JSON</button>
+                        </mp-sparql-download>
+                    </semantic-search-result>
+                </bs-panel>
+            </div>
+        </semantic-search-result-holder>
+      
+    </div>
+</semantic-search>

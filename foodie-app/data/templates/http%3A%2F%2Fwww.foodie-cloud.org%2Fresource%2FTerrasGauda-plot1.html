@@ -1,0 +1,184 @@
+<div id="logo" class="foodie-logo" style="text-align:left" >
+      &nbsp;&nbsp;&nbsp;&nbsp;<a href="https://foodie.grapphs.com/" target="_blank"><img src=https://www.databio.eu/wp-content/uploads/2017/03/logo_m.png height="50"/></a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://foodie.grapphs.com/" target="_blank"><img src=https://www.foodie-cloud.org/images/logo.png height="45"/></a>
+<div id="intro" class="intro-title" style="text-align:center" >
+<h1>Management Zones in Terras Gauda</h1> 
+  <h4>Production for campaign 2015 (1st March - 1st November)</h4>
+</div>
+  <div class="documentation__intro">
+    <div class="documentation__intro__description">
+        <br>The following map displays the Management Zones from Site #1 (Plot #1) of Terras Gauda (Spain)
+      <semantic-query
+    	query='
+            PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+						PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+						PREFIX site1: <http://w3id.org/foodie/core/Site/1>
+						PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+						PREFIX foodie-es: <http://foodie-cloud.com/model/foodie-es#>
+						PREFIX owl: <http://www.w3.org/2002/07/owl#>
+						PREFIX iso19103: <http://def.seegrid.csiro.au/isotc211/iso19103/2005/basic#>
+						PREFIX iso19115-citation: 	<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#>
+          
+
+						SELECT ?label ?name ?address ?area ?city ?country
+						WHERE {
+								site1: rdfs:label ?label .
+								site1: foodie-es:siteName ?name .
+						  	site1: foodie-es:siteAddress ?address .
+						    ?address iso19115-citation:administrativeArea ?area .
+						    ?address iso19115-citation:city ?city .
+						    ?address iso19115-citation:country ?country .
+						}   
+          '
+    	template='
+            <div>    
+            <b> Site overview:</b>
+            <!--<mp-resource-link uri="http://w3id.org/foodie/core/Site/1"><b>Site</b></mp-resource-link><b> overview:</b>-->
+            <ul>
+                {{#each bindings}}
+                <li>Name: 
+                   <semantic-link uri="http://w3id.org/foodie/core/Site/1">
+                    {{name.value}}
+                   </semantic-link>
+                </li>
+                <li>Administrative area: 
+                   <semantic-link uri="{{address.value}}">
+                    {{area.value}}
+                   </semantic-link>
+                </li>
+                <li>City: 
+                   <semantic-link uri="{{address.value}}">
+                    {{city.value}}
+                   </semantic-link>
+                </li>
+                <li>Country: 
+                   <semantic-link uri="{{address.value}}">
+                    {{country.value}}
+                   </semantic-link>
+                </li>
+              {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      <semantic-query
+    	query='
+            PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+						PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+						PREFIX site1: <http://w3id.org/foodie/core/Site/1>
+						PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+						PREFIX foodie-es: <http://foodie-cloud.com/model/foodie-es#>
+						PREFIX owl: <http://www.w3.org/2002/07/owl#>
+						PREFIX iso19103: <http://def.seegrid.csiro.au/isotc211/iso19103/2005/basic#>
+						PREFIX iso19115-citation: 	<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#>
+          
+
+						SELECT ?see
+						WHERE {
+						  	site1: foodie-es:siteAddress ?address .
+						    ?address rdfs:seeAlso ?see .
+						}   
+          '
+    	template='
+            <small>
+            <b>See also:</b>
+            {{#each bindings}}
+              <a href="{{see.value}}">{{see.value}}</a>
+              {{#if @last}} {{else}}, {{/if}}
+            {{/each}} 
+            </small>
+          '
+			></semantic-query>
+      <semantic-query
+    	query='
+            PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+						PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+						PREFIX site1: <http://w3id.org/foodie/core/Site/1>
+						PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+						PREFIX foodie-es: <http://foodie-cloud.com/model/foodie-es#>
+						PREFIX owl: <http://www.w3.org/2002/07/owl#>
+						PREFIX iso19103: <http://def.seegrid.csiro.au/isotc211/iso19103/2005/basic#>
+						PREFIX iso19115-citation: 	<http://def.seegrid.csiro.au/isotc211/iso19115/2003/citation#>
+          
+
+						SELECT ?party ?person
+						WHERE {
+								site1: rdfs:label ?label .
+								site1: foodie-es:siteName ?name .
+						  	site1: foodie-es:siteAddress ?address .
+						    site1: foodie-es:siteResponsibleParty ?party .
+						  	?party iso19115-citation:individualName ?person .
+						}
+          
+          '
+    	template='
+            <div>
+            <b>Responsibles:</b>
+            <ul>
+              {{#each bindings}}
+                <li>
+                  <semantic-link uri="{{party.value}}">
+                    <i class="fa fa-user" style="margin-right: 5px"></i> 
+                    {{person.value}}
+                  </semantic-link>
+                </li>
+              {{/each}}
+            </ul></div>
+          '
+			></semantic-query>
+    </div>
+    <div class="documentation__intro__demo" >
+      <semantic-map
+        query='
+          PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+					PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+					PREFIX plot1: <http://w3id.org/foodie/core/Plot/1>
+					PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+					PREFIX foodie-es: <http://foodie-cloud.com/model/foodie-es#>
+          PREFIX owl: <http://www.w3.org/2002/07/owl#>
+          PREFIX iso19103:	<http://def.seegrid.csiro.au/isotc211/iso19103/2005/basic#>
+          
+
+					SELECT ?resource ?zone_name ?crop (<bif:st_point>(<bif:ST_XMin>(?coordinates),<bif:ST_YMin>(?coordinates)) as ?wkt ) ?link ?image ?crop_description ?begin_date ?end_date ?campaign ?amount_value ?amount_uom ?link2
+					WHERE {
+            ?resource a foodie:ManagementZone .
+            ?resource rdfs:label ?label .
+            ?resource foodie-es:managementZoneName ?zone_name .
+            ?resource foodie:cropSpecies ?crop .
+            ?resource geo:hasGeometry ?geo .
+            ?geo geo:asWKT ?coordinates .
+            ?resource foodie:holdingZone plot1: .
+            ?product a foodie:ProductionType .
+            ?product foodie-es:productionTypeManagementZone ?resource .
+            ?product foodie:productionDate ?prod_date .
+            ?product foodie:productionAmount ?amount .
+            ?product foodie-es:productionTypeCampaignType ?campaign .
+            ?campaign rdfs:label ?camp_label .
+            ?campaign foodie-es:campaignBegin ?begin_date .
+            ?campaign foodie-es:campaignEnd ?end_date .
+            ?amount iso19103:value ?amount_value .
+            ?amount iso19103:uom ?amount_uom .
+            ?crop foodie:description ?crop_description .
+            ?crop <http://schema.org/image> ?image .
+            ?crop owl:sameAs ?link .
+            ?crop rdfs:seeAlso ?link2 .
+          }
+        '       
+       tuple-template='<div style="width:250px;">
+                       <a href="{{image.value}}"><img style="height:75px;" src="{{image.value}}"/></a><br>
+                       Management Zone: <semantic-link uri="{{resource.value}}">{{zone_name.value}}</semantic-link><br>
+                       Crop: <semantic-link uri="{{crop.value}}">{{crop_description.value}}</semantic-link><br>
+                       <semantic-link uri="{{campaign.value}}">Campaign:</semantic-link><br> 
+                       <!--<p><script> document.write(new Date("2015-03-01T00:00:00").toLocaleDateString()); </script> </p>-->
+                       &nbsp;&nbsp;&nbsp;&nbsp;<b>Begin date: </b>{{begin_date.value}}<br>
+                       &nbsp;&nbsp;&nbsp;&nbsp;<b>End date: </b>{{end_date.value}}<br>
+                       Production amount: {{amount_value.value}} {{amount_uom.value}}
+                       <hr>
+                       <small>
+                       <b>Crop links:</b><br>
+                       (same as) <a href="{{link.value}}"><mp-text-truncate truncate="...">{{link.value}}</mp-text-truncate></a>
+                       (see also) <a href="{{link2.value}}"><mp-text-truncate truncate="...">{{link2.value}}</mp-text-truncate></a>
+                       </small>
+                       </div>'
+      ></semantic-map>
+    </div>
+  </div> 

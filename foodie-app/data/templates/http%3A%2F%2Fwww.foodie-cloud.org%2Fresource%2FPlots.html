@@ -1,0 +1,16 @@
+<semantic-map
+        query='
+          SELECT ?Plot ?Label ?geo (?Coordinates as ?wkt)
+          FROM <http://w3id.org/foodie/core/es#>
+          WHERE {
+            ?Plot a <http://foodie-cloud.com/model/foodie#Plot>.
+            ?Plot rdfs:label ?Label .
+            ?geo a geo:Geometry .
+            ?geo geo:asWKT ?Coordinates .
+            FILTER(<bif:st_intersects> (?Coordinates, <bif:st_geomFromText>("POLYGON ((-8.794161 41.945611,-8.793949 41.946053,-8.793453 41.945804,-8.79296 41.945852,-8.792855 41.945822,-8.792836 41.945748,-8.794161 41.945611))"))) .
+          
+            
+           	}
+        '
+       
+      ></semantic-map>

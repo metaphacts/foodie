@@ -1,0 +1,28 @@
+<h1> OLU </h1> 
+  <div class="documentation__intro">
+    <div class="documentation__intro__description">
+        OLU tests
+    </div>
+    <div class="documentation__intro__demo" >
+      <semantic-map
+        query='
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX olu: <http://w3id.org/foodie/olu#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?olu ?Label ?t1 (?coordinatesOLU AS ?wkt) FROM <http://w3id.org/foodie/olu#>
+WHERE {
+  ?olu rdf:type olu:LandUse.
+  ?olu rdfs:label ?Label.
+  ?olu geo:hasGeometry ?geometry.
+  ?geometry geo:asWKT ?coordinatesOLU.
+  BIND(<bif:GeometryType>(?coordinatesOLU) AS ?t1)
+  FILTER(<bif:st_within>(<bif:st_geomFromText>("POINT(14.428899765015 50.076099395752)"), ?coordinatesOLU))
+  FILTER(STRSTARTS(STR(?t1), "POLYGON"))
+}
+        '
+       fix-zoom-level=16
+       tuple-template='<div><semantic-link uri="{{olu.value}}">{{Label.value}}</semantic-link> </div>'
+      ></semantic-map>
+    </div>
+  </div>

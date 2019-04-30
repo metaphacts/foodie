@@ -1,0 +1,44 @@
+<semantic-search>
+    <semantic-search-query-keyword
+        query='
+      PREFIX person: <http://example.com/person/> 
+      SELECT ?subject WHERE {
+        FILTER REGEX(?label, ?__token__, "i")
+        VALUES(?subject ?label){
+          ( person:alice "Alice" )
+          ( person:carola "Carola" )      
+          ( person:bob "Bob" )
+          ( person:mike "Mike" )
+        }
+      }
+    '
+    ></semantic-search-query-keyword>
+
+    <semantic-search-result-holder>
+        <semantic-search-result>
+            <semantic-table
+                id="table"
+                query='
+          PREFIX person: <http://example.com/person/> 
+          SELECT ?subject ?label ?image {
+               VALUES(?subject ?label ?image){
+                  ( person:alice "Alice" "//upload.wikimedia.org/wikipedia/commons/thumb/6/6c/User_icon_3.svg/200px-User_icon_3.svg.png" )
+                  ( person:carola "Carola" "//upload.wikimedia.org/wikipedia/commons/thumb/6/6c/User_icon_3.svg/200px-User_icon_3.svg.png" )      
+                  ( person:bob "Bob" "//upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/200px-User_icon_2.svg.png" )
+                  ( person:mike "Mike" "//upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/200px-User_icon_2.svg.png" )
+                }
+          }
+        '
+                tuple-template="{{>resultTemplate}}"
+                options='{"showFilter": false}'
+            >
+                <template id="resultTemplate">
+          <div style="float:left;width:200px;height:170px;" class="panel panel-default text-center" title="{{subject.value}}">
+            <div class="panel-body"><img src="{{image.value}}" style="width:150px;"></div>
+            <div class="panel-footer" style="position: relative">{{label.value}}</div>
+          </div>       
+        </template>
+            </semantic-table>
+        </semantic-search-result>
+    </semantic-search-result-holder>
+</semantic-search>

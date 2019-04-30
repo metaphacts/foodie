@@ -1,0 +1,29 @@
+<h1> Plots in Terras Gauda </h1> 
+  <div class="documentation__intro">
+    <div class="documentation__intro__description">
+        Here you can find plots in Terras Gauda (Spain)
+    </div>
+    <div class="documentation__intro__demo" >
+      <semantic-map
+        query='
+          PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+					PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+					PREFIX plot1: <http://foodie-cloud.com/model/foodie#Plot>
+					PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+					PREFIX foodie-es: <http://foodie-cloud.com/model/foodie-es#>
+
+					SELECT ?resource ?label ?name ?crop (?coordinates as ?wkt)
+					FROM <http://w3id.org/foodie/core/es#>
+					WHERE {
+            ?resource rdfs:label ?label .
+            ?resource foodie-es:managementZoneName ?name .
+            ?resource geo:hasGeometry ?geo .
+            ?resource foodie:cropSpecies ?crop .
+            ?geo geo:asWKT ?coordinates .
+            ?resource foodie:holdingZone plot1: . 
+					}
+        '
+       tuple-template='<div><semantic-link uri="{{resource.value}}">{{label.value}}</semantic-link></div>'
+      ></semantic-map>
+    </div>
+  </div> 

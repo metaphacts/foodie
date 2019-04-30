@@ -1,0 +1,26 @@
+<h1> FOODIE - Points of Interest </h1> 
+  <div class="documentation__intro">
+    <div class="documentation__intro__description">
+        Used for displaying spatial data on a map.
+        <ul>
+          <li>WKT point/polygons are supported, however, currently only be approximated as simple markers on the map. </li>
+          <li>Coordinates are assumed to be in EPSG:4326 (WGS84) and will be transformed internally to EPSG:3857</li>
+        </ul>
+    </div>
+    <div class="documentation__intro__demo" >
+      <semantic-map
+        query='
+          SELECT ?Resource ?Label ?POI_Class (?Coordinates as ?wkt)
+          FROM <http://www.sdi4apps.eu/poi.rdf>
+          WHERE {
+            ?Resource a ?POI_Class .
+            ?Resource rdfs:label ?Label .
+            ?Resource geo:asWKT ?Coordinates .
+            FILTER(<bif:st_intersects> (?Coordinates, <bif:st_geomFromText>("POLYGON((6.11553983198 54.438016608357, 6.95050076948 47.230985358357, 13.36651639448 47.626493170857, 14.99249295698 54.701688483357, 6.11553983198 54.438016608357))"))) .
+          }
+          LIMIT 50
+        '
+       tuple-template='<div><semantic-link uri="{{Resource.value}}">{{Label.value}}</semantic-link></div>'
+      ></semantic-map>
+    </div>
+  </div>

@@ -1,0 +1,39 @@
+<h1> Points of Interest - Las Vegas (Nevada) </h1> 
+  <div class="documentation__intro">
+    <div class="documentation__intro__description">
+        Here you can find Points of Interest in Las Vegas (Nevada)
+    </div>
+    <div class="documentation__intro__demo" >
+      <semantic-map
+        query='
+SELECT ?Resource ?Label ?resource_type ?rating ?wkt ?color			
+WHERE
+{
+  {
+	SELECT ?Resource ?Label (IRI(<http://schema.org/LocalBusiness>) as ?resource_type) ?rating (?Coordinates as ?wkt) ("#2b9464" as ?color) 
+    WHERE {
+      ?Resource a  <http://schema.org/LocalBusiness> .
+      ?Resource rdfs:label ?Label .
+      ?Resource geo:asWKT ?Coordinates .
+      ?Resource <http://purl.org/stuff/rev#rating> ?rating .
+      FILTER(<bif:st_intersects> (?Coordinates, <bif:st_geomFromText>("POLYGON((-115.205009 36.197481, -115.090724 36.197481, -115.090724 36.143304, -115.205009 36.143304, -115.205009 36.197481))"))) .
+    }
+  }
+  UNION
+  { 
+    SELECT ?Resource ?Label ?resource_type (" " as ?rating) (?Coordinates as ?wkt) ("rgba(56, 178, 194, 0.44)" as ?color) 
+    WHERE {
+      ?Resource a ?resource_type .
+      ?Resource rdfs:label ?Label .
+      ?Resource geo:asWKT ?Coordinates .
+      FILTER(<bif:st_intersects> (?Coordinates, <bif:st_geomFromText>("POLYGON((-115.205009 36.197481, -115.090724 36.197481, -115.090724 36.143304, -115.205009 36.143304, -115.205009 36.197481))"))) .
+      FILTER NOT EXISTS { ?Resource a <http://schema.org/LocalBusiness> }
+    }
+  }
+}
+        '
+       fix-zoom-level=16
+       tuple-template='<div><semantic-link uri="{{Resource.value}}">{{Label.value}}</semantic-link><br> Type: <semantic-link uri="{{resource_type.value}}"></semantic-link> <br>Rating: {{rating.value}} </div>'
+      ></semantic-map>
+    </div>
+  </div>

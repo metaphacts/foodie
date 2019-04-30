@@ -1,0 +1,38 @@
+<h1>Plots in Terras Gauda </h1> 
+  <div class="documentation__intro">
+    <div class="documentation__intro__description">
+        Here you can find the Plots from Site #1 in Terras Gauda (Spain)
+      <ol>
+<li>Research Object title is not present (This is a \"must\" requirement. Satisfied?: false)</li>
+<li>Research Object description is not present (This is a \"should\" requirement. Satisfied?: false)</li>
+<li>Experiment hypothesis or research question is not present (This is a \"should\" requirement. Satisfied?: false)</li>
+<li>Experiment design sketch is not present (This is a \"should\" requirement. Satisfied?: false)</li>
+<li>Experiment conclusions are not present (This is a \"should\" requirement. Satisfied?: false)</li>
+<li>Annotation body http://sandbox.rohub.org/rodl/ROs/Kegg-workflow-evaluation-4/.ro/manifest.rdf for http://sandbox.rohub.org/rodl/ROs/Kegg-workflow-evaluation-4/.ro/annotations/df9edf33-5f96-4fd8-9a2e-6949ac1e69bf is not accessible (This is a \"should\" requirement. Satisfied?: false)</li>
+</ol>
+    </div>
+    <div class="documentation__intro__demo" >
+      <semantic-map
+        query='
+          PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+					PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+					PREFIX site1: <http://w3id.org/foodie/core/Site/1>
+					PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+					PREFIX foodie-es: <http://foodie-cloud.com/model/foodie-es#>
+
+					SELECT ?resource ?label ?description ?crop (<bif:st_point>(<bif:ST_XMin>(?coordinates),<bif:ST_YMin>(?coordinates)) as ?wkt )
+					FROM <http://w3id.org/foodie/core/es#>
+					WHERE {
+            ?resource a foodie:Plot .
+            ?resource rdfs:label ?label .
+            ?resource foodie:description ?description .
+            ?resource geo:hasGeometry ?geo .
+            ?resource foodie-es:crop ?crop .
+            ?geo geo:asWKT ?coordinates .
+            ?resource foodie:holdingPlot site1: . 
+					}
+        '
+       tuple-template='<div><semantic-link uri="{{resource.value}}">{{label.value}}</semantic-link><br><semantic-link uri="{{crop.value}}"></semantic-link></div>'
+      ></semantic-map>
+    </div>
+  </div> 

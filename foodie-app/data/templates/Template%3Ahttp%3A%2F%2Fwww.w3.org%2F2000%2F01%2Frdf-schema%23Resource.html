@@ -1,0 +1,40 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<div class="page">
+
+  <div class='page__header'>
+    [[> Platform:DefaultResourceHeader]]
+  </div>
+  <div class='page__body'>
+    [[#*inline "table"]]
+      <semantic-table 
+        query='SELECT ?property ?[[projection]] ?graph WHERE { GRAPH ?graph { [[pattern]] } } LIMIT 1000'
+        column-configuration='[
+          {"variableName":"property", "displayName":"Property"},
+          {"variableName":"[[projection]]", "displayName":"[[label]]"},
+          {"variableName":"graph", "displayName":"Named Graph", "cellTemplate":"{{> template}}"}                                
+        ]'
+        options='{
+          "resultsPerPage":10
+        }'
+      >
+        <template id='template'>
+          <semantic-link uri="[[resolvePrefix "Admin:NamedGraphs"]]" urlqueryparam-graph="{{graph.value}}">{{graph.value}}</semantic-link>
+        </template>
+      </semantic-table>
+    [[/inline]]
+    
+    <h2>Outgoing Statements</h2>
+    [[> table pattern='?? ?property ?object' projection='object' label='Object']]
+    <h2>Incoming Statements</h2>
+    [[> table pattern='?subject ?property ??' projection='subject' label='Subject']]
+  </div>
+
+</div>

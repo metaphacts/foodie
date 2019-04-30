@@ -1,0 +1,46 @@
+
+   <div id="logo" class="foodie-logo" style="text-align:left" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://foodie.grapphs.com/" target="_blank"><img src=https://www.databio.eu/wp-content/uploads/2017/03/logo_m.png height="85"/></a></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://foodie.grapphs.com/" target="_blank"><img src=https://www.foodie-cloud.org/images/logo.png height="60"/></a>
+     
+     
+   </div>
+   <div id="intro" class="intro-title" style="text-align:center" >
+       <a href="https://foodie.grapphs.com/" target="_blank"><img src=http://dss.foodie-cloud.org/images/foodie-banner.jpg /></a>
+  	<h2>Welcome to DATABIO-FOODIE metaphactory</h2>
+  </div>
+  <div style="text-align:center; font-size:14px;">
+    The metaphactory helps you to navigate and to visualize DATABIO-FOODIE knowledge graphs, some transformed from relational datasets, and some coming from relevant open datasets. These include: <a href="http://sdi4apps.eu/open_land_use_sk/">Open Land Use</a>, <a href="http://opentransportmap.info/">Open Transport Map</a>, <a href="http://sdi4apps.eu/spoi/ ">Smart Point of Interest</a>, <a href="http://nuts.geovocab.org/">EU NUTS classification</a>, Corine Land Cover, Urban Atlas, Hilucs classification, <a href="http://eurovoc.europa.eu/drupal/">Eurovoc</a>, <a href="    http://aims.fao.org/standards/agrovoc/linked-open-data">Agrovoc</a>,<a href="http://vocab.ctic.es/emergel/">Emergel</a> and others  
+  </div>
+  <br>
+  <br>
+  <semantic-simple-search
+    query='
+    SELECT distinct ?uri ?label ?class WHERE {
+     ?uri a ?class .
+     ?uri ?property ?label .
+     FILTER (<bif:contains>(?label,"\"?token\"")) 
+    } LIMIT 50'
+    search-term-variable="token"
+    resource-selection='{
+    "resourceBindingName":"uri",
+    "template":"<span style=\"color: blue;\" title=\"{{uri.value}}\">{{label.value}} ({{class.value}})</span>"
+  }'
+    input-placeholder='Search for something e.g. "Sevilla"'
+>
+</semantic-simple-search>
+
+<br>
+<div style="text-align:center; font-size:14px;">
+    See some maps belows:
+     <!--<li><a href="https://foodie.grapphs.com/resource/TerrasGauda-site1">Plots in Terras Gauda</a></li>-->
+     <li><a href="https://foodie.grapphs.com/resource/TerrasGauda-plot1">Management Zones in Terras Gauda (Production 2015)</a></li>
+  	 <li><a href="https://foodie.grapphs.com/resource/:SPOI-poznan-stareMiasto">Points of interests in Poznan (Stare Miasto)</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-praha-stareMesto">Points of interests in Prague (Staré Město)</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-madrid-centro">Points of interests in Madrid (centro)</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-berlin-mitte">Points of interests in Berlin (Mitte)</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-poznan">Points of interests in Poznan</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-praha">Points of interests in Prague</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-madrid">Points of interests in Madrid</a></li>
+     <li><a href="https://foodie.grapphs.com/resource/:SPOI-berlin">Points of interests in Berlin</a></li>
+  		 
+  </div>
