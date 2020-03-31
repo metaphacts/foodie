@@ -1,0 +1,39 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery/context> {
+  <http://metaphacts.com/query/myquery/arg/0> a <http://spinrdf.org/spl#Argument> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> <http://www.w3.org/2000/01/rdf-schema#label>
+      "myquery" .
+  
+  <http://metaphacts.com/query/myquery/arg/0> <http://spinrdf.org/spl#predicate> <http://metaphacts.com/query/myquery/predicate/type>;
+    <http://spinrdf.org/spl#valueType> <http://www.w3.org/2001/XMLSchema#anyURI> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> <http://www.w3.org/2000/01/rdf-schema#comment>
+      "myquery" .
+  
+  <http://metaphacts.com/query/myquery/arg/0> <http://www.w3.org/2000/01/rdf-schema#label>
+      "type" .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> <http://spinrdf.org/spin#constraint>
+      <http://metaphacts.com/query/myquery/arg/0> .
+  
+  <http://metaphacts.com/query/myquery/arg/0> <http://www.w3.org/2000/01/rdf-schema#comment>
+      "" .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> a
+      <http://spinrdf.org/spin#Template> .
+  
+  <http://metaphacts.com/query/myquery/arg/0> <http://spinrdf.org/spl#optional> false .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> <http://spinrdf.org/spin#body>
+      <http://metaphactory.foodie-cloud.org/container/queryContainer/myquery>;
+    a <http://spinrdf.org/spin#SelectTemplate>, <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-11-14T19:41:52.090Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryTemplateContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery> a
+      <http://www.w3.org/ns/ldp#Resource> .
+}

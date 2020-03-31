@@ -1,0 +1,24 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryContainer/Query_with_polygons,_points,_multipolygons_in_values/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryContainer/Query_with_polygons,_points,_multipolygons_in_values>
+    a <http://spinrdf.org/sp#Query>, <http://spinrdf.org/sp#Select>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "Query with polygons, points, multipolygons in values";
+    <http://spinrdf.org/sp#text> """SELECT ?wkt ?description ?link ?input WHERE {
+              BIND (STRDT(\"MULTIPOLYGON(((6.572419 52.346605,6.572397 52.346616,6.572397 52.346616,6.572397 52.346613,6.571993 52.346825,6.571966 52.346839,6.57137 52.347151,6.570654 52.347526,6.569588 52.348083,6.570816 52.348557,6.570872 52.348543,6.572211 52.347781,6.572681 52.347999,6.573617 52.347474,6.572985 52.347021,6.572946 52.346993,6.572903 52.346959,6.572901 52.34696,6.572419 52.346605)),((6.572414 52.346626,6.572945 52.347016,6.570401 52.348383,6.569635 52.348079,6.569635 52.348076,6.572414 52.346626)))\",<http://www.openlinksw.com/schemas/virtrdf#Geometry>) AS ?input)
+              VALUES(?wkt ?description ?link) {
+                (\"MULTIPOLYGON(((6.351852 52.630905,6.35167 52.630994,6.355055 52.633982,6.355296 52.633861,6.351852 52.630905)))\"\"Walldorf1 - WKT polygon data @ OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright\" <http://www.wikidata.org/entity/Q22873>)
+                (\"POINT(6.357989111145002 52.633420053948285)\"\"Walldorf2 - WKT polygon data @ OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright\" <http://www.wikidata.org/entity/Q22872>)
+                (\"MULTIPOLYGON(((6.572419 52.346605,6.572397 52.346616,6.572397 52.346616,6.572397 52.346613,6.571993 52.346825,6.571966 52.346839,6.57137 52.347151,6.570654 52.347526,6.569588 52.348083,6.570816 52.348557,6.570872 52.348543,6.572211 52.347781,6.572681 52.347999,6.573617 52.347474,6.572985 52.347021,6.572946 52.346993,6.572903 52.346959,6.572901 52.34696,6.572419 52.346605)),((6.572414 52.346626,6.572945 52.347016,6.570401 52.348383,6.569635 52.348079,6.569635 52.348076,6.572414 52.346626))) (<http://www.openlinksw.com/schemas/virtrdf#Geometry>)\"\"Walldorf3 - WKT polygon data @ OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright\" <http://www.wikidata.org/entity/Q22871>)
+                (\"POLYGON((5.965463915069563 52.55627595750705,5.943491258819563 52.504479377279836,6.019022264678938 52.51534501255712,5.965463915069563 52.55627595750705))\"\"Walldorf4 - WKT polygon data @ OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright\" <http://www.wikidata.org/entity/Q22870>)
+              }
+            }""";
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-11-15T15:00:04.846Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryContainer/Query_with_polygons,_points,_multipolygons_in_values> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryContainer/Query_with_polygons,_points,_multipolygons_in_values>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

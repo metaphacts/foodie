@@ -1,0 +1,48 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryContainer/ICES_API_-_full/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryContainer/ICES_API_-_full> a
+      <http://spinrdf.org/sp#Query>, <http://spinrdf.org/sp#Select>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "ICES API - full";
+    <http://spinrdf.org/sp#text> """PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX api: <http://purl.org/linked-data/api/vocab#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX ices: <http://sid.ices.dk/Services/odata4/$metadata#>
+SELECT * WHERE {
+#  BIND(\"ActiveYear eq 2014\"^^xsd:string as ?input)
+ BIND(\"ActiveYear eq 2014 AND AssessmentKey ge 0 AND length(SpeciesScientificName) ge 0 AND length(speciesCommonName) ge 0\"^^xsd:string as ?input)
+ SERVICE <http://www.metaphacts.com/ontologies/platform/repository/federation#icesLD> {
+   ?results api:filter ?input .
+   ?results ices:assessmentKey ?assessmentKey .
+   ?results ices:stockDatabaseID ?stockDatabaseID .
+   ?results ices:stockKey ?stockKey .
+   ?results ices:stockKeyLabel ?stockKeyLabel .
+   ?results ices:activeYear ?activeYear .
+   ?results ices:speciesScientificName ?speciesScientificName .
+   ?results ices:speciesCommonName ?speciesCommonName .
+#   ?results ices:ecoRegion ?ecoRegion .
+   ?results ices:expertGroup ?expertGroup .
+   ?results ices:expertGroupDescription ?expertGroupDescription .
+#   ?results ices:dataCategory ?dataCategory .
+#   ?results ices:yearOfLastAssessment ?yearOfLastAssessment .
+   ?results ices:assessmentType ?assessmentType .
+   ?results ices:PABufferApplied ?PABufferApplied .
+   ?results ices:trophicGuild ?trophicGuild .
+   ?results ices:sizeGuild ?sizeGuild .
+   ?results ices:published ?published .
+   ?results ices:generatedOn ?generatedOn .
+ }
+} LIMIT 10""";
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-10-17T05:51:49.814Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryContainer/ICES_API_-_full> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryContainer/ICES_API_-_full> a
+      <http://www.w3.org/ns/ldp#Resource> .
+}

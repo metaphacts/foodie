@@ -1,0 +1,62 @@
+
+      <bs-panel>
+        <semantic-form new-subject-template='http://www.example.com/id/{{UUID}}'
+          post-action='redirect'
+          browser-persistence=true
+          form-id='example-3'
+          fields='[
+            
+            {
+              "id": "spatial",
+              "label": "Spatial Coverage",
+              "description": "The spatial coverage used in the dataset",
+              "xsdDatatype": "xsd:anyURI",
+              "minOccurs": "1",
+              "selectPattern": "
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX lcc-lr: <https://www.omg.org/spec/LCC/Languages/LanguageRepresentation/>
+                SELECT ?value ?label 
+                FROM <https://w3id.org/cybele/datasets/>
+                FROM <https://www.omg.org/spec/LCC/Countries/UN-M49-RegionCodes/> 
+								FROM <http://w3id.org/foodie/open/gadm36/level0#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level1#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level2#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level3#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level4#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level5#>
+                WHERE {
+                  $subject <http://purl.org/dc/terms/spatial> ?value .
+                  ?value rdfs:label ?label
+                }
+              ",
+              "insertPattern": "INSERT { GRAPH <https://w3id.org/cybele/datasets/> { $subject <http://purl.org/dc/terms/spatial> ?value } } WHERE {}",
+              "deletePattern": "DELETE { GRAPH <https://w3id.org/cybele/datasets/> { $subject <http://purl.org/dc/terms/spatial> ?value } } WHERE {}",
+              "autosuggestionPattern": "
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX lcc-cr: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX geo: <http://www.geonames.org/ontology#>
+SELECT $value $label 
+FROM <https://www.omg.org/spec/LCC/Countries/UN-M49-RegionCodes/> 
+FROM <http://w3id.org/foodie/open/gadm36/level0#> 
+FROM <http://w3id.org/foodie/open/gadm36/level1#> 
+FROM <http://w3id.org/foodie/open/gadm36/level2#> 
+FROM <http://w3id.org/foodie/open/gadm36/level3#> 
+FROM <http://w3id.org/foodie/open/gadm36/level4#> 
+FROM <http://w3id.org/foodie/open/gadm36/level5#> 
+WHERE {
+    ?value a ?type ;
+  		rdfs:label ?label .
+  FILTER (?type in (lcc-cr:GeographicRegion, geo:Feature)) .
+  FILTER (<bif:contains>(?label,\"?token\")) .
+}
+              "
+            }
+          ]'>
+            <semantic-form-autocomplete-input for='spatial' placeholder='select spatial...'></semantic-form-autocomplete-input>         
+         </semantic-form-composite-input>
+          <semantic-form-errors></semantic-form-errors>
+          <!-- save and reset button for form -->
+          <button name="submit" class="btn btn-default">Save</button>
+          <button name="reset" class="btn btn-default">Reset</button>
+        </semantic-form>
+      </bs-panel>

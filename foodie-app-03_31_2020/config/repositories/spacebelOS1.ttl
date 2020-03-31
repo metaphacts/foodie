@@ -1,0 +1,22 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rep: <http://www.openrdf.org/config/repository#> .
+@prefix sail: <http://www.openrdf.org/config/sail#> .
+@prefix sr: <http://www.openrdf.org/config/repository/sail#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a rep:Repository;
+  rep:repositoryID "spacebelOS1";
+  rep:repositoryImpl [
+      rep:repositoryType "openrdf:SailRepository";
+      sr:sailImpl [
+          <http://www.metaphacts.com/ontologies/platform/ephedra#httpHeader> [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#name> "Accept";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#value> "application/json"
+            ];
+          <http://www.metaphacts.com/ontologies/platform/ephedra#httpMethod> "GET";
+          <http://www.metaphacts.com/ontologies/platform/ephedra#implementsService> <http://www.metaphacts.com/ontologies/platform/ephedra#spacebelOS>;
+          <http://www.metaphacts.com/ontologies/platform/ephedra#serviceURL> "http://geo.spacebel.be/opensearch/request";
+          sail:sailType "metaphacts:RESTService"
+        ]
+    ];
+  rdfs:label "Repository1 to query spacebel OpenSearch API." .

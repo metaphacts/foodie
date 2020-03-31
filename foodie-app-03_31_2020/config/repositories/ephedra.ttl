@@ -1,0 +1,47 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rep: <http://www.openrdf.org/config/repository#> .
+@prefix sail: <http://www.openrdf.org/config/sail#> .
+@prefix sr: <http://www.openrdf.org/config/repository/sail#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a rep:Repository;
+  rep:repositoryID "ephedra";
+  rep:repositoryImpl [
+      rep:repositoryType "metaphacts:FederationSailRepository";
+      sr:sailImpl [
+          <http://www.metaphacts.com/ontologies/platform/ephedra#defaultMember> "default";
+          sail:sailType "metaphacts:Federation";
+          <http://www.openrdf.org/config/sail/federation#member> [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "FOODIEmain";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#FOODIEmain>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "darksky";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#darksky>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "agrodatacube";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#agrodatacube>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "spacebelOS1";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#spacebelOS1>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "spacebelOS";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#spacebelOS>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "icesLD";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#icesLD>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "testLogging";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#testLogging>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "virtuoso-repository";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#virtuoso-repository>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "default";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#default>
+            ], [
+              <http://www.metaphacts.com/ontologies/platform/ephedra#delegateRepositoryID> "openstreetmap";
+              <http://www.metaphacts.com/ontologies/platform/ephedra#serviceReference> <http://www.metaphacts.com/ontologies/platform/repository/federation#openstreetmap>
+            ]
+        ]
+    ];
+  rdfs:label "Local Ephedra federation" .

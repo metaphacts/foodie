@@ -1,0 +1,17 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/example-ogc-secondquery/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/example-ogc-secondquery>
+    a <http://spinrdf.org/spin#Template>, <http://spinrdf.org/spin#SelectTemplate>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "example-ogc-secondquery";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "example-ogc-secondquery";
+    <http://spinrdf.org/spin#body> <http://metaphactory.foodie-cloud.org/container/queryContainer/example-ogc-secondquery>;
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-11-14T07:15:01.987Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryTemplateContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/example-ogc-secondquery> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/example-ogc-secondquery>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

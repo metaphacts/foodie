@@ -1,0 +1,44 @@
+<bs-panel header="Catches per time interval" collapsible="true">  
+    <div class="description" style="text-align:center;font-size:medium" >The following line chart displays total number of catch records per catching time interval in Norway</div>
+      <semantic-chart type='line'
+            query='
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX schema: <http://schema.org/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX catchrecord: <http://www.ontologydesignpatterns.org/cp/owl/fsdas/catchrecord.owl#>
+PREFIX catchrecord-norway: <http://w3id.org/foodie/open/catchrecord/norway#>
+PREFIX vessel: <http://w3id.org/foodie/open/vessels#>
+PREFIX gear: <http://w3id.org/foodie/open/gear#>
+PREFIX fdir: <http://w3id.org/foodie/open/FDIR#>
+PREFIX taxonomic: <http://www.fao.org/aims/aos/fi/species_taxonomic.owl#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX lcc-cr: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation#> 
+PREFIX lcc-language: <https://www.omg.org/spec/LCC/Languages/LanguageRepresentation/> 
+
+SELECT (concat(str(?hour),":00-",str(?hour),":59") as ?fullHour) (COUNT(distinct ?s) as ?catches)
+FROM <http://w3id.org/foodie/open/catchrecord/norway/>
+FROM <http://www.fao.org/aims/aos/fi/water_FAO_areas/marine#>
+FROM <http://www.fao.org/aims/aos/fi/water_FAO_areas/inland#>
+FROM <http://www.fao.org/aims/aos/fi/taxonomic#>
+FROM <https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/>
+FROM <https://www.omg.org/spec/LCC/Countries/Regions/ISO3166-2-SubdivisionCodes-NO/>
+WHERE { 
+   ?s a catchrecord:CatchRecord .
+   ?s  catchrecord-norway:catchLandingTime ?catchTime .
+   
+   ?s catchrecord-norway:saleDate ?saleDate .
+   BIND (substr(STR(?saleDate),7,4) AS ?year) .
+   FILTER (xsd:integer(?year) = 2019)
+   
+   BIND (hours(xsd:dateTime(concat("2019-01-01T",?catchTime))) as ?hour)
+} 
+GROUP BY ?hour 
+ORDER BY ASC(?hour)
+#LIMIT 24
+            '
+            sets='[{"dataSetName": "Catches in 2015", "category": "fullHour", "value": "catches"}]'
+          ></semantic-chart>
+    </bs-panel>

@@ -1,0 +1,282 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX adc: <http://www.metaphacts.com/ontologies/adc#>
+PREFIX time: <https://www.w3.org/TR/owl-time/#time>
+PREFIX ignf: <http://data.ign.fr/def/ignf#>
+PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX ephedra: <http://www.metaphacts.com/ontologies/platform/ephedra#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX iso19103: <http://def.seegrid.csiro.au/isotc211/iso19103/2005/basic#>
+PREFIX olu: <http://w3id.org/foodie/olu#>
+PREFIX : <http://www.metaphacts.com/ontologies/platform/service/custom#>
+
+ephedra:agrodatacube a ephedra:Service ;
+  sail:sailType "metaphacts:RESTService" ;
+  rdfs:label "A wrapper for the AgroDataCube service." ;
+  ephedra:hasSPARQLPattern (
+# INPUTS
+    [
+      sp:subject :_results ;
+      sp:predicate geo:asWKT1 ;
+      sp:object :_geometry
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:fieldid ;
+      sp:object :_fieldid
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:outputEPSG ;
+      sp:object :_output_epsg
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:pageSize ;
+      sp:object :_page_size
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:pageOffset ;
+      sp:object :_page_offset
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:yearInput ;
+      sp:object :_year
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:cropcode ;
+      sp:object :_cropcode
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:cropInput ;
+      sp:object :_cropname
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate ignf:epsgID ;
+      sp:object :_epsg
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:result ;
+      sp:object :_result
+    ]
+# OUTPUTS
+    [
+      sp:subject :_results ;
+      sp:predicate time:year ;
+      sp:object :_yearOutput
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate foodie:code ;
+      sp:object :_crop_code
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate foodie:crop ;
+      sp:object :_crop_name
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate foodie:shortId ;
+      sp:object :_fieldidOutput
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate olu:specificLandUse ;
+      sp:object :_grondgebruik
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:measureArea ;
+      sp:object :_area
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:measurePerimeter ;
+      sp:object :_perimeter
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:geometryType ;
+      sp:object :_geometryType
+    ]
+    [
+      sp:subject :_results ;
+      sp:predicate adc:coordinates ;
+      sp:object :_coordinates
+    ]
+     
+	) ;
+# INPUTS
+  spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "geometry input" ;
+    spl:predicate :_geometry ;
+    spl:valueType geo:wktLiteral
+    ] ;
+  spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "field ID input" ;
+    spl:predicate :_fieldid ;
+    spl:valueType xsd:string
+    ] ;
+  spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "output epsg" ;
+    spl:predicate :_output_epsg ;
+    spl:defaultValue "4326"^^xsd:integer ;
+    spl:valueType xsd:integer
+    ] ;
+  spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "page size" ;
+    spl:predicate :_page_size ;
+    spl:defaultValue "1"^^xsd:integer ;
+    spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "page offset" ;
+    spl:predicate :_page_offset ;
+    spl:defaultValue "0"^^xsd:integer ;
+    spl:valueType xsd:integer
+    ] ;
+	spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "year input" ;
+    spl:predicate :_year ;
+    spl:valueType xsd:string
+    ] ;
+    spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "crop code input" ;
+    spl:predicate :_cropcode ;
+    spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "crop name input" ;
+    spl:predicate :_cropname ;
+    spl:valueType xsd:string
+    ] ;
+    spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "epsg" ;
+    spl:predicate :_epsg ;
+    spl:defaultValue "4326"^^xsd:integer ;
+    spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+  [
+    a spl:Argument ;
+    rdfs:comment "result output" ;
+    spl:predicate :_result ;
+    spl:valueType xsd:string
+    ] ;   
+# OUTPUTS
+    spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "results" ;
+    spl:predicate :_results ;
+    spl:valueType rdfs:Resource;
+    ephedra:jsonPath "$.features[*]"
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "year output" ;
+    spl:predicate :_yearOutput ;
+    spl:valueType xsd:string;
+    ephedra:jsonPath "$.properties.year"
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "crop code" ;
+    spl:predicate :_crop_code ;
+    spl:valueType xsd:integer;
+    ephedra:jsonPath "$.properties.crop_code"
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "crop name" ;
+    spl:predicate :_crop_name ;
+    ephedra:jsonPath "$.properties.crop_name" ;
+    spl:valueType xsd:string;
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "fieldid output" ;
+    spl:predicate :_fieldidOutput ;
+    ephedra:jsonPath "$.properties.fieldid" ;
+    spl:valueType xsd:string
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "grondgebruik" ;
+    spl:predicate :_grondgebruik ;
+    ephedra:jsonPath "$.properties.grondgebruik" ;
+    spl:valueType xsd:string
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "area" ;
+    spl:predicate :_area ;
+    ephedra:jsonPath "$.properties.area" ;
+    spl:valueType xsd:integer
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "perimeter" ;
+    spl:predicate :_perimeter ;
+    ephedra:jsonPath "$.properties.perimeter" ;
+    spl:valueType xsd:integer
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "perimeter" ;
+    spl:predicate :_geometryType ;
+    ephedra:jsonPath "$.geometry.type" ;
+    spl:valueType xsd:string
+  ] ;
+  spin:column
+  [
+    a spin:Column ;
+    rdfs:comment "perimeter" ;
+    spl:predicate :_coordinates ;
+    ephedra:jsonPath "$.geometry.coordinates" ;
+    spl:valueType xsd:string
+  ] .
+#  spin:column
+#  [
+#    a spin:Column ;
+#    rdfs:comment "geometry output" ;
+#    spl:predicate :_geometryOutput ;
+#    ephedra:jsonPath "$.geometry" ;
+#    spl:valueType geo:wktLiteral
+#  ] .
