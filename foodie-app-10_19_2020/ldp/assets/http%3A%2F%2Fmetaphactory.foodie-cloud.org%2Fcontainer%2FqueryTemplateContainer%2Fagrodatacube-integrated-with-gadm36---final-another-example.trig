@@ -1,0 +1,17 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube-integrated-with-gadm36---final-another-example/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube-integrated-with-gadm36---final-another-example>
+    a <http://spinrdf.org/spin#Template>, <http://spinrdf.org/spin#SelectTemplate>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "AGRODATACUBE INTEGRATED WITH GADM36 - FINAL2";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "WORKS FINALLY";
+    <http://spinrdf.org/spin#body> <http://metaphactory.foodie-cloud.org/container/queryContainer/WORKS_FINALLY>;
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-10-23T17:23:01.051Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryTemplateContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube-integrated-with-gadm36---final-another-example> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube-integrated-with-gadm36---final-another-example>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

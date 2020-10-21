@@ -1,0 +1,17 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---testing-geospatial-queries/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---testing-geospatial-queries>
+    a <http://spinrdf.org/spin#Template>, <http://spinrdf.org/spin#SelectTemplate>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "agrodatacube - testing geospatial queries";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "WORK - TEST";
+    <http://spinrdf.org/spin#body> <http://metaphactory.foodie-cloud.org/container/queryContainer/agrodatacube_-_testing_geospatial_queries>;
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-09-03T07:24:30.319Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryTemplateContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---testing-geospatial-queries> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---testing-geospatial-queries>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

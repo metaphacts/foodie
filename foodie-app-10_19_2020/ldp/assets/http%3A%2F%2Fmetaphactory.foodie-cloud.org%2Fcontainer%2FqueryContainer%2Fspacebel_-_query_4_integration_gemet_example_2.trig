@@ -1,0 +1,41 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryContainer/spacebel_-_query_4_integration_gemet_example_2/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryContainer/spacebel_-_query_4_integration_gemet_example_2>
+    a <http://spinrdf.org/sp#Query>, <http://spinrdf.org/sp#Select>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "simple integration";
+    <http://spinrdf.org/sp#text> """PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX sb: <http://geo.spacebel.be/opensearch#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX os: <http://a9.com/-/spec/opensearch/1.1/>
+PREFIX eo: <http://a9.com/-/opensearch/extensions/eo/1.0/>
+
+SELECT * WHERE {
+  BIND(\"sentinel\"^^xsd:string as ?input)
+  SERVICE <http://www.metaphacts.com/ontologies/platform/repository/federation#spacebelOS> {
+   ?results eo:platform ?input .
+   ?results os:maximumRecords 50 .
+   ?results dct:title ?title .
+   ?results dct:description ?description.
+   ?results dct:spatial ?wkt.
+   ?results dcat:keyword ?keywords.
+   ?results dcat:theme ?theme.
+ }
+  OPTIONAL {
+    ?theme <http://www.eionet.europa.eu/gemet/2004/06/gemet-schema.rdf#hasWikipediaArticle> ?article
+  }
+} LIMIT 50""";
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-11-13T08:52:20.318Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryContainer/spacebel_-_query_4_integration_gemet_example_2> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryContainer/spacebel_-_query_4_integration_gemet_example_2>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

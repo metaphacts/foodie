@@ -1,0 +1,17 @@
+
+<http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---full-example-with-wkt-output/context> {
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---full-example-with-wkt-output>
+    a <http://spinrdf.org/spin#Template>, <http://spinrdf.org/spin#SelectTemplate>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "AgroDataCube - full example with wkt output";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "WORKING - includes all steps for transformation coordinates to wkt (documentation)";
+    <http://spinrdf.org/spin#body> <http://metaphactory.foodie-cloud.org/container/queryContainer/AgroDataCube_-_full_example_with_wkt_output>;
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-09-03T06:56:50.972Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryTemplateContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---full-example-with-wkt-output> .
+  
+  <http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/agrodatacube---full-example-with-wkt-output>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

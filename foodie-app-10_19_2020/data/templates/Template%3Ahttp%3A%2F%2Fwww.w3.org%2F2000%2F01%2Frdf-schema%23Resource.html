@@ -1,0 +1,33 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<style>
+  #tabs .tab-ontodia {
+    margin: 0px;
+    padding: 2px 0px 0px;
+    width: 100%;
+    height: calc(100vh - 300px);
+  }
+</style>
+
+<div class="page">
+
+    <div class='page__header-navtabs'>
+      [[> Platform:DefaultResourceHeader]]
+    </div>
+    <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
+      <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
+      </bs-tab>
+      <bs-tab event-key="1" title="Source">
+        [[> Platform:SourceStatements]]
+      </bs-tab>
+      [[> "http://www.metaphacts.com/resource/LinksToOtherDatabases" eventKey='2']]
+    </bs-tabs>
+</div>

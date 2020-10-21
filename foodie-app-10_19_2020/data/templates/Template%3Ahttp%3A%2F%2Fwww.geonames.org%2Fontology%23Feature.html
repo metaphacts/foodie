@@ -1,0 +1,87 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<style>
+  #tabs .tab-ontodia {
+    margin: 0px;
+    padding: 2px 0px 0px;
+    width: 100%;
+    height: calc(100vh - 300px);
+  }
+</style>
+
+<div class="page">
+
+    <div class='page__header-navtabs'>
+      [[> Platform:DefaultResourceHeader]]
+    </div>
+    <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
+     <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
+      </bs-tab>
+      <bs-tab event-key="1" class="tab-map" title="Points of Interest">
+        
+     <semantic-query
+    	query='
+           PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+           SELECT (count (DISTINCT ?Resource) as ?total)
+           WHERE {
+              ?Resource geo:asWKT ?Coordinates .
+              {
+                 SELECT ?geoasWKT
+                    WHERE {
+                      ?? geo:hasGeometry ?geometry .
+                      ?geometry geo:asWKT ?geoasWKT .
+                  }
+              } 
+          FILTER(<bif:st_intersects>(?Coordinates, ?geoasWKT)) .   
+          FILTER NOT EXISTS { ?Resource a <http://www.opengis.net/ont/geosparql#Geometry> }
+          }
+          '
+    	template='
+            <div>
+            <b>Loading may take a while </b>
+              {{#each bindings}}
+                    (total # of POIs {{total.value}})
+              {{/each}}
+            </div>    
+          '
+			></semantic-query>
+        
+     <semantic-map
+        query='
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+SELECT DISTINCT ?Resource (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class)  (?Coordinates AS ?wkt)
+WHERE {
+    ?Resource a ?class1 .
+    ?Resource geo:asWKT ?Coordinates .
+     {
+       SELECT ?geoasWKT
+       WHERE {
+          ?? geo:hasGeometry ?geometry .
+          ?geometry geo:asWKT ?geoasWKT .
+       }
+    }
+    FILTER(<bif:st_intersects>(?Coordinates, ?geoasWKT)) .   
+    FILTER NOT EXISTS { ?Resource a <http://www.opengis.net/ont/geosparql#Geometry> }
+} GROUP BY ?Resource ?Coordinates
+LIMIT 10000
+        '
+       tuple-template='<div><semantic-link uri="{{Resource.value}}"></semantic-link><br/></semantic-link> (Type: {{class.value}})</div>'
+      ></semantic-map>
+      </bs-tab>      
+
+      <bs-tab event-key="21" title="Source">
+        [[> Platform:SourceStatements]]
+      </bs-tab>
+      [[> "http://www.metaphacts.com/resource/LinksToOtherDatabases" eventKey='2']]
+    </bs-tabs>
+</div>

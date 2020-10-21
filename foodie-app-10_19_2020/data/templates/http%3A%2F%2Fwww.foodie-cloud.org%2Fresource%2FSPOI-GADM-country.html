@@ -1,0 +1,48 @@
+
+   <div id="logo" class="foodie-logo" style="text-align:left" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" target="_blank"><img src=https://www.databio.eu/wp-content/uploads/2017/03/logo_m.png height="85"/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" target="_blank"><img src=https://www.foodie-cloud.org/images/logo.png height="60"/></a>
+     
+     
+   </div>
+   <div id="intro" class="intro-title" style="text-align:center" >
+       <a href="https://foodie.metaphacts.cloud/" target="_blank"><img src=http://dss.foodie-cloud.org/images/foodie-banner.jpg /></a>
+  	<h2>Welcome to DATABIO-FOODIE metaphactory</h2>
+  </div>
+  <div style="text-align:center; font-size:14px;">
+    Search for the target country or subdivision (e.g., city, province, village, region, etc.)
+  </div>
+  <br>
+<!-- ORIGINAL QUERY
+SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class) WHERE {
+     ?uri a ?class1 ; a <http://www.geonames.org/ontology#Feature> .
+     ?uri ?property ?label1 .
+     FILTER (<bif:contains>(?label1,"\"?token\"")) 
+    } GROUP BY ?uri LIMIT 50
+
+-->
+<!-- works
+SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(?classGADM; separator = " ") AS ?class) WHERE {
+     ?uri a ?class1 ; a <http://www.geonames.org/ontology#Feature> .
+     ?uri ?property ?label1 .
+     FILTER (<bif:contains>(?label1,"\"?token\"")) .
+     BIND(IF(?class1 NOT IN (<http://www.geonames.org/ontology#Feature>,<https://www.omg.org/spec/LCC/Countries/CountryRepresentation#CountrySubdivision>), ?class1, "") as ?classGADM)
+		} GROUP BY ?uri LIMIT 50
+
+-->
+  <br>
+  <semantic-simple-search
+    query='
+    SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(?classGADM; separator = " ") AS ?class) WHERE {
+     ?uri a ?class1 ; a <http://www.geonames.org/ontology#Feature> .
+     ?uri ?property ?label1 .
+     FILTER (<bif:contains>(?label1,"\"?token\"")) .
+     BIND(IF(?class1 NOT IN (<http://www.geonames.org/ontology#Feature>,<https://www.omg.org/spec/LCC/Countries/CountryRepresentation#CountrySubdivision>), ?class1, "") as ?classGADM)
+		} GROUP BY ?uri LIMIT 50'
+    search-term-variable="token"
+    resource-selection='{
+    "resourceBindingName":"uri",
+    "template":"<span style=\"color: blue;\" title=\"{{uri.value}}\">{{label.value}} ({{class.value}})</span>"
+  }'
+    input-placeholder='Search for country or subdivision e.g. "Kenya" or "Berlin"'
+>
+</semantic-simple-search>

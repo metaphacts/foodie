@@ -1,0 +1,17 @@
+
+<http://localhost:10214/container/queryTemplateContainer/openstreetmap-rest-api-query/context> {
+  <http://localhost:10214/container/queryTemplateContainer/openstreetmap-rest-api-query>
+    a <http://spinrdf.org/spin#Template>, <http://spinrdf.org/spin#SelectTemplate>;
+    <http://www.w3.org/2000/01/rdf-schema#label> "openstreetmap REST API  query";
+    <http://www.w3.org/2000/01/rdf-schema#comment> "TEST";
+    <http://spinrdf.org/spin#body> <http://localhost:10214/container/queryContainer/openstreetmap_REST_API__query>;
+    a <http://www.w3.org/ns/prov#Entity>;
+    <http://www.w3.org/ns/prov#wasAttributedTo> <http://www.metaphacts.com/resource/user/admin>;
+    <http://www.w3.org/ns/prov#generatedAtTime> "2019-09-03T03:44:53.081Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+  
+  <http://www.metaphacts.com/ontologies/platform#queryTemplateContainer> <http://www.w3.org/ns/ldp#contains>
+      <http://localhost:10214/container/queryTemplateContainer/openstreetmap-rest-api-query> .
+  
+  <http://localhost:10214/container/queryTemplateContainer/openstreetmap-rest-api-query>
+    a <http://www.w3.org/ns/ldp#Resource> .
+}

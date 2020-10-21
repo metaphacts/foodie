@@ -1,0 +1,259 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<style>
+  #tabs .tab-ontodia {
+    margin: 0px;
+    padding: 2px 0px 0px;
+    width: 100%;
+    height: calc(100vh - 300px);
+  }
+  .list {
+  	list-style-type: none;
+  }
+  .url-link {
+  	margin: 0px 0px 10px 25px;
+  }
+  .map-property {
+  	font-size: 15px;
+		margin-left: 5px;
+  }
+  .map-list{
+  	margin-left: -30px;
+    margin-top: 12px;
+    list-style-type: none;
+  }
+</style>
+
+<div class="page">
+
+    <div class='page__header-navtabs'>
+      [[> Platform:DefaultResourceHeader]]
+    </div>
+    <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
+     <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
+      </bs-tab>
+      <bs-tab event-key="21" title="Source">
+        [[> Platform:SourceStatements]]
+      </bs-tab>
+      <bs-tab event-key="22" class="tab-map" title="Collections">
+<table>
+    <tr>
+        <td><div align="left"><h1>ESA collections for the selected EO platform</h1></div></td>
+        <td><div id="logo" class="foodie-logo" style="text-align:right" >
+      PoweredBy<a href="/" target="_blank"><img src=https://box.psnc.pl/f/96d6055922/?raw=1 height="75"/><a href="/" target="_blank"><img src=https://box.psnc.pl/f/9628de132c/?raw=1 height="70"/></div></td>
+    </tr>
+</table>         
+  <h4>The displayed information is retrieved live from SpaceBel opensearch service, transformed on the fly to Linked Data and connected with other datasets. SpaceBel opensearch service provides access to EO collections from ESA, each comprising a large number of EO products descriptions. The service implements the standard <a href="https://github.com/dewitt/opensearch" target="_blank">OpenSearch API</a> plus the <a href="https://docs.opengeospatial.org/is/13-026r8/13-026r8.html" target="_blank">OGC 13-026r8 (EO Extension of OpenSearch)</a>, and the results can be retrieved in different formats, including <a href="https://json-ld.org/" target="_blank">JSON-LD</a>.  The service documentation is available  <a href="http://geo.spacebel.be/opensearch/readme.html" target="_blank">here</a>.</h4>
+        
+    <div class="documentation__intro"></div>
+    <div class="documentation__intro__description">
+      <br><h4><u>EO platform description (NASA)</u></h4> 
+    </div>
+  <br>  
+  
+<!--pref names-->      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT (group_concat(?linkLabel  ; separator = "; ") as ?labels)
+WHERE {
+  ?? skos:prefLabel ?linkLabel . 
+}  
+          '
+    	template='
+            <div>
+                <h4> Preferred Label: </h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                	<h6>{{labels.value}}</h6>
+                </li>
+                {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+
+  <!--alt names-->      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT (group_concat(?altLabel  ; separator = "; ") as ?labels1)
+WHERE {
+  ?? skos:altLabel ?altLabel . 
+}  
+          '
+    	template='
+            <div>
+                <h4> Alternative Label: </h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                	<h6>{{labels1.value}}</h6>
+                </li>
+                {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+  
+  <!--definition-->      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?definition
+WHERE {
+  ?? skos:definition ?definition . 
+}  
+          '
+    	template='
+            <div>
+                <h4> Definition: </h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                	<h6>{{definition.value}}</h6>
+                </li>
+                {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+
+  <!--narrower-->   
+        <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?narrower
+WHERE {
+  ?? skos:narrower ?narrower .
+}  
+          '
+    	template='
+            <div>
+                <h4> Narrower: </h4>
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                  <semantic-link uri="{{narrower.value}}">
+                    <h6>{{narrower.value}}</h6>
+                   </semantic-link>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+
+  <!--exactMatch --> 
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?exactMatch 
+WHERE {
+  ?? skos:exactMatch ?exactMatch .
+}  
+          '
+    	template='
+            <div>
+                <h4>Exact Matches:</h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                  <h6><a href="{{exactMatch.value}}" target="_blank">{{exactMatch.value}}</a></h6>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+
+  <!--sameAs --> 
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?sameAs 
+WHERE {
+  ?? owl:sameAs ?sameAs .
+}  
+          '
+    	template='
+            <div>
+                <h4>Same As:</h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                   <h6><a href="{{sameAs.value}}" target="_blank">{{sameAs.value}}</a></h6>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+  
+  
+  <br>
+      <semantic-context repository='ephedra'>
+      <semantic-query
+    	query='
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX sb: <http://geo.spacebel.be/opensearch#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX os: <http://a9.com/-/spec/opensearch/1.1/>
+PREFIX eo: <http://a9.com/-/opensearch/extensions/eo/1.0/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?results ?collection ?title ?description ?wkt ?keywords WHERE {
+#  BIND("SeaSat"^^xsd:string as ?input)
+  ?? skos:prefLabel ?input .
+  SERVICE <http://www.metaphacts.com/ontologies/platform/repository/federation#spacebelOS> {
+   ?results eo:platform ?input .
+   ?results os:maximumRecords 50 .
+   ?results dct:title ?title .
+   ?results dct:description ?description.
+   ?results dct:spatial ?wkt.
+   ?results dcat:keyword ?keywords.
+   ?results dct:identifier ?collection
+ }
+} LIMIT 50  
+          '
+    	template=' 
+            <div>    
+                <h4><u> EO collections (max 50) - click to visualize on map: </u></h4>
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                <a href="http://metaphactory.foodie-cloud.org/resource/:collection-product?collection={{collection.value}}" target="_blank">{{collection.value}}</a>
+                <h6><i>Title:</i> {{title.value}}</h6>
+                <h6><i>Description:</i> {{description.value}}<br><i>Keywords:</i>{{keywords.value}}</h6>
+                </li>
+                {{/each}}
+            </ul>
+            </div>
+          '
+			></semantic-query>
+</semantic-context>
+      
+      </bs-tab>      
+
+      [[> "http://www.metaphacts.com/resource/LinksToOtherDatabases" eventKey='2']]
+    </bs-tabs>
+</div>

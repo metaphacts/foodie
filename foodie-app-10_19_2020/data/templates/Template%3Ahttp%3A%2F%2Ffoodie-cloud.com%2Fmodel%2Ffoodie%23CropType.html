@@ -1,0 +1,361 @@
+<ol class="page-breadcrumb">
+  <li>
+    <mp-link title="Home" url="/">Home</mp-link>
+  </li>
+  <li class="active">
+    <mp-label iri='[[this]]'></mp-label>
+  </li>
+</ol>
+
+<style>
+  #tabs .tab-ontodia {
+    margin: 0px;
+    padding: 2px 0px 0px;
+    width: 100%;
+    height: calc(100vh - 300px);
+  }
+  .list {
+  	list-style-type: none;
+  }
+  .url-link {
+  	margin: 0px 0px 10px 25px;
+  }
+  .map-property {
+  	font-size: 15px;
+		margin-left: 5px;
+  }
+  .map-list{
+  	margin-left: -30px;
+    margin-top: 12px;
+    list-style-type: none;
+  }
+  #wrap {
+   width:600px;
+   margin:0 auto;
+	}
+	#left_col {
+   float:left;
+   width:300px;
+	}
+	#right_col {
+   float:right;
+   width:300px;
+}
+</style>
+
+<div class="page">
+
+    <div class='page__header-navtabs'>
+      [[> Platform:DefaultResourceHeader]]
+    </div>
+    <bs-tabs id="tabs" class='page__body-navtabs' unmount-on-exit=true>
+     <bs-tab event-key="0" class="tab-ontodia" title="Knowledge Graph">
+        <ontodia id='ontodia' hide-toolbar=true hide-panels=true hide-scroll-bars=true hide-navigation-confirmation=true auto-zoom=true settings=nostats iri='[[this]]'></ontodia>
+      </bs-tab>
+      <bs-tab event-key="21" title="Source">
+        [[> Platform:SourceStatements]]
+      </bs-tab>
+      <bs-tab event-key="22" class="tab-map" title="Fields">
+
+<table>
+    <tr>
+        <td><div align="left"><h1>Fields in Netherlands with selected crop</h1></div></td>
+        <td><div id="logo" class="foodie-logo" style="text-align:right" >
+      PoweredBy<a href="/" target="_blank"><img src=https://box.psnc.pl/f/c8c99af8d2/?raw=1 height="85"/></div></td>
+    </tr>
+</table>         
+  <h4>The displayed information is retrieved live from AgroDataCube service, transformed on the fly to Linked Data and linked with AGROVOC. AgroDataCube provides a large collection of both open data and derived data from Netherlands for use in agri-food applications. You can join AgroDataCube on <a href="https://github.com/AgroDataCube" target="_blank">GitHub</a> and the <a href="https://gitter.im/agrodatacube/Community" target="_blank">Gitter</a> channel. The latest API version is Version 2 (V2). The V2 API documentation is available in <a href="https://documenter.getpostman.com/view/5525378/S1EQSdKN" alt="Postman Doc" target="_blank">Postman</a></h4>
+  <div class="documentation__intro"></div>
+    <div class="documentation__intro__description">
+      <br><u>AGROVOC description for the crop (closest match)</u> 
+    </div>
+      <br>
+
+<!--crop names-->      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop (group_concat(?linkLabel  ; separator = "; ") as ?labels)
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop skos:prefLabel ?linkLabel .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>
+                <h4> Crop Names: </h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                	{{labels.value}}
+                </li>
+                {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+<!--exactMatch --> 
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?exactMatch 
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop skos:exactMatch ?exactMatch .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>
+                <h4>Exact Matches:</h4>    
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                   <a href="{{exactMatch.value}}" target="_blank">{{exactMatch.value}}</a>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?closeMatch 
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop skos:closeMatch ?closeMatch .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>
+            <h4> Close Matches </h4>
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                <a href= "{{closeMatch.value}}" target="_blank"> {{closeMatch.value}} </a>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?product
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop <http://aims.fao.org/aos/agrontology#hasProduct> ?product .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>
+                <h4> Has Products: </h4>
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                  <semantic-link uri="{{product.value}}">
+                    {{product.value}}
+                   </semantic-link>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?make
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop <http://aims.fao.org/aos/agrontology#isUsedToMake> ?make .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>    
+                <h4>Is used to make:</h4>
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                <semantic-link uri="{{make.value}}">
+                    {{make.value}}
+                   </semantic-link>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?produced
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop <http://aims.fao.org/aos/agrontology#isProducedBy> ?produced .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>    
+                <h4>Is produced by: </h4>
+            		<ul class="list">
+                {{#each bindings}}
+                	<li class="url-link">
+                    <semantic-link uri="{{produced.value}}">
+                    {{produced.value}}
+                   </semantic-link>
+                	</li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?pathogen
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop <http://aims.fao.org/aos/agrontology#hasPathogen> ?pathogen .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>
+              <h4> Has pathogens: </h4>    
+            	<ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                  <semantic-link uri="{{pathogen.value}}">
+                    {{pathogen.value}}
+                   </semantic-link>
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      
+      <semantic-query
+    	query='
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?crop ?photo
+WHERE {
+  ?crop a <http://www.w3.org/2004/02/skos/core#Concept> .
+  ?crop <http://xmlns.com/foaf/0.1/depiction> ?photo .
+  ?? skos:broadMatch ?crop .
+}  
+          '
+    	template='
+            <div>    
+                <h4> Depictions: </h4>
+            <ul class="list">
+                {{#each bindings}}
+                <li class="url-link">
+                   <a href={{photo.value}} target="_blank">
+                    {{photo.value}}
+                </a>                   
+                </li>
+               {{/each}}
+            </ul>
+            </div>    
+          '
+			></semantic-query>
+      <br><u>Fields on the map</u> 
+      <br><br>The following map displays the first 100 fields in north west region in the Netherlands with the selected crop for year 2019. This information is retrieved from Agrodatacube service and converted to Linked Data on the fly.
+      <br>
+      <br>      
+<semantic-context repository='ephedra'>
+      <semantic-map
+        query='
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX time: <https://www.w3.org/TR/owl-time/#time>
+PREFIX ignf: <http://data.ign.fr/def/ignf#>
+PREFIX foodie: <http://foodie-cloud.com/model/foodie#>
+PREFIX adc: <http://www.metaphacts.com/ontologies/adc#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX olu: <http://w3id.org/foodie/olu#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT (?geo as ?wkt) ?fieldID ?color ?year ?crop ?code ?area ?perimeter ?landuse ?geoType ?coordinates WHERE {
+#BIND("POLYGON((4.518791803638351%2052.21221409647766,4.134270319263351%2051.986127776113435,4.386955866138351%2051.91502889317742,4.628655084888351%2051.94551364630173,4.672600397388351%2052.06724565798882,4.518791803638351%2052.21221409647766))"^^xsd:string as ?inputgeo)  
+BIND("POLYGON((4.798943170825851%2052.47732294850673,4.134270319263351%2051.986127776113435,4.386955866138351%2051.91502889317742,4.749504694263351%2051.8811326543645,5.013176569263351%2051.90825169118245,5.318047174732101%2052.18696287104758,4.798943170825851%2052.47732294850673))"^^xsd:string as ?inputgeo)    
+# BIND("Mais, snij-"^^xsd:string as ?inputcrop)
+ ?? skos:prefLabel ?inputcrop ;
+    foodie:code ?inputcode .
+ FILTER langMatches( lang(?inputcrop), "nl") .
+ SERVICE <http://www.metaphacts.com/ontologies/platform/repository/federation#agrodatacube> {
+#INPUTS
+   ?results adc:yearInput 2019 .
+   ?results ignf:epsgID 4326 .
+   ?results adc:cropcode ?inputcode .
+#   ?results adc:cropInput ?inputcrop .
+   ?results adc:outputEPSG 4326 .
+   ?results adc:pageSize 100 .
+   ?results adc:pageOffset 0 .
+   ?results geo:asWKT1 ?inputgeo .
+#OUTPUTS
+   ?results time:year ?year.
+   ?results foodie:crop ?crop.
+   ?results foodie:code ?code.
+   ?results foodie:shortId ?fieldID .
+   ?results adc:measureArea ?area .
+   ?results adc:measurePerimeter ?perimeter .
+   ?results olu:specificLandUse ?landuse .
+   ?results adc:geometryType ?geoType.
+   ?results adc:coordinates ?coordinates. 
+ }
+#BIND (STRDT(IF(STRSTARTS(UCASE(STR(?geoType)), "POLYGON"), CONCAT(UCASE(STR(?geoType)),REPLACE(REPLACE(REPLACE(REPLACE(STR(?coordinates),","," "),"\\] \\[",","),"\\[\\[\\[","(("),"\\]\\]\\]","))")), IF(STRSTARTS(UCASE(STR(?geoType)), "MULTIPOLYGON"), CONCAT(UCASE(STR(?geoType)),REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR(?coordinates),","," "),"\\] \\[",","),"\\[\\[\\[","(("),"\\]\\]\\]","))"),"\\],\\[",")),(("),"\\[","("),"\\]",")")), IF(STRSTARTS(UCASE(STR(?geoType)), "POINT"), CONCAT(UCASE(STR(?geoType)),REPLACE(REPLACE(REPLACE(STR(?coordinates),","," "),"\\[\\[","("),"\\]\\]",")")),""))),<http://www.openlinksw.com/schemas/virtrdf#Geometry>) as ?geo)
+#  BIND (IF(STRSTARTS(UCASE(STR(?geoType)), "POLYGON"), CONCAT(UCASE(STR(?geoType)),REPLACE(REPLACE(REPLACE(REPLACE(STR(?coordinates),","," "),"\\] \\[",","),"\\[\\[\\[","(("),"\\]\\]\\]","))")), IF(STRSTARTS(UCASE(STR(?geoType)), "MULTIPOLYGON"), CONCAT(UCASE(STR(?geoType)),REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR(?coordinates),","," "),"\\] \\[",","),"\\[\\[\\[","(("),"\\]\\]\\]","))"),"\\],\\[",")),(("),"\\[","("),"\\]",")")), IF(STRSTARTS(UCASE(STR(?geoType)), "POINT"), CONCAT(UCASE(STR(?geoType)),REPLACE(REPLACE(REPLACE(STR(?coordinates),","," "),"\\[\\[","("),"\\]\\]",")")),""))) as ?geo)
+BIND(IF((STRSTARTS(UCASE(STR(?geoType)), "MULTIPOLYGON") || REGEX(STR(?coordinates),"\\]\\],\\[\\[","i")), CONCAT("MULTIPOLYGON", REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR(?coordinates), ",", " "), "\\] \\[", ","), "\\[\\[\\[", "(("), "\\]\\]\\]", "))"), "\\],\\[", ")),(("), "\\[", "("), "\\]", ")")), IF(STRSTARTS(UCASE(STR(?geoType)), "POLYGON"), CONCAT(UCASE(STR(?geoType)), REPLACE(REPLACE(REPLACE(REPLACE(STR(?coordinates), ",", " "), "\\] \\[", ","), "\\[\\[\\[", "(("), "\\]\\]\\]", "))")), IF(STRSTARTS(UCASE(STR(?geoType)), "POINT"), CONCAT(UCASE(STR(?geoType)), REPLACE(REPLACE(REPLACE(STR(?coordinates), ",", " "), "\\[\\[", "("), "\\]\\]", ")")), ""))) AS ?geo1)
+  BIND (IF (REGEX(?geo1,"MULTIPOLYGON\\(\\(\\d","i"),1,0) AS ?fixme)
+  BIND (IF (?fixme=1,REPLACE (?geo1,"MULTIPOLYGON\\(\\(","MULTIPOLYGON((("),"") as ?geo2)
+  BIND (IF (?fixme=1,REPLACE (?geo2,"\\)\\)$",")))"),?geo1) as ?geo)
+  BIND ("rgba(217, 17, 17)" as ?color)
+} LIMIT 100
+        '
+       fix-zoom-level=8
+       tuple-template='<div>
+													<h4> Details: </4>
+                       		<ul class="map-list"> 
+                       			<li class="map-property"> field id: <b> {{fieldID.value}} </b></li>
+														<li class="map-property"> crop name: <b>{{crop.value}}</b> </li>
+														<li class="map-property"> crop code: <b>{{code.value}}</b> </li>                       
+ 		                        <li class="map-property"> year: <b>{{year.value}}</b> </li>    
+														<li class="map-property"> perimeter: <b>{{perimeter.value}}</b> </li>
+                       			<li class="map-property"> landuse: <b>{{landuse.value}}</b> </li>
+                       		</ul>
+                       </div>' 
+      ></semantic-map>
+  </semantic-context>
+      
+      
+      
+      </bs-tab>      
+
+      [[> "http://www.metaphacts.com/resource/LinksToOtherDatabases" eventKey='2']]
+    </bs-tabs>
+</div>

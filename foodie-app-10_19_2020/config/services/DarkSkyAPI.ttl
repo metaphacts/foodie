@@ -1,0 +1,216 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ephedra: <http://www.metaphacts.com/ontologies/platform/ephedra#>
+PREFIX weatherapi: <http://www.metaphacts.com/ontologies/platform/repository/federation/weatherapi#>
+PREFIX : <http://www.metaphacts.com/ontologies/platform/service/custom#>
+
+ephedra:darksky a ephedra:Service ;
+	sail:sailType "metaphacts:RESTService" ;
+	rdfs:label "A wrapper for the Dark Sky weather REST API service." ;
+	ephedra:hasSPARQLPattern (
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:latitude ;
+			sp:object :_latitude
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:longitude ;
+			sp:object :_longitude
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:time ;
+			sp:object :_time
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:sunsetTime ;
+			sp:object :_sunsetTime
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:precipProbability ;
+			sp:object :_precipProbability
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:precipType ;
+			sp:object :_precipType
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:hasKey ;
+			sp:object :_key
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:units ;
+			sp:object :_units
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:summary ;
+			sp:object :_summary
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:cloudCover ;
+			sp:object :_cloudCover
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:visibility ;
+			sp:object :_visibility
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:windSpeed ;
+			sp:object :_windSpeed
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:icon ;
+			sp:object :_icon
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:temperatureLow ;
+			sp:object :_temperatureLow
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate weatherapi:temperatureHigh ;
+			sp:object :_temperatureHigh
+		]	
+	) ;
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "latitude" ;
+		spl:predicate :_latitude ;
+		spl:valueType xsd:double
+	] ,
+	[
+		a spl:Argument ;
+		rdfs:comment "longitude" ;
+		spl:predicate :_longitude ;
+		spl:valueType xsd:double
+	] ,
+	[
+		a spl:Argument ;
+		rdfs:comment "time" ;
+		spl:predicate :_time ;
+		spl:valueType xsd:integer
+	] ,
+	[
+		a spl:Argument ;
+		rdfs:comment "units" ;
+		spl:predicate :_units ;
+		spl:defaultValue "si";
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "results" ;
+		spl:predicate :_results ;
+		spl:valueType rdfs:Resource;
+		ephedra:jsonPath "$"
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "sunsetTime" ;
+		spl:predicate :_sunsetTime;
+		ephedra:jsonPath "daily.data[0].sunsetTime";
+		spl:valueType xsd:integer
+
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "sunriseTime" ;
+		spl:predicate :_sunsetTime;
+		ephedra:jsonPath "daily.data[0].sunriseTime";
+		spl:valueType xsd:integer
+	] ;	
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "precipProbability" ;
+		spl:predicate :_precipProbability ;
+		ephedra:jsonPath "currently.precipProbability" ;
+		spl:valueType xsd:double
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "precipType" ;
+		spl:predicate :_precipType ;
+		ephedra:jsonPath "currently.precipType" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "summary" ;
+		spl:predicate :_summary ;
+		ephedra:jsonPath "currently.summary" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "icon" ;
+		spl:predicate :_icon ;
+		ephedra:jsonPath "currently.icon" ;
+		spl:valueType xsd:string
+	] ;	
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "cloud cover" ;
+		spl:predicate :_cloudCover ;
+		ephedra:jsonPath "currently.cloudCover" ;
+		spl:valueType xsd:double
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "visibility" ;
+		spl:predicate :_visibility ;
+		ephedra:jsonPath "currently.visibility" ;
+		spl:valueType xsd:double
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "wind speed" ;
+		spl:predicate :_windSpeed ;
+		ephedra:jsonPath "currently.windSpeed" ;
+		spl:valueType xsd:double
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "low temperature" ;
+		spl:predicate :_temperatureLow ;
+		ephedra:jsonPath "daily.data[*].temperatureLow" ;
+		spl:valueType xsd:double
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "high temperature" ;
+		spl:predicate :_temperatureHigh ;
+		ephedra:jsonPath "daily.data[0].temperatureHigh" ;
+		spl:valueType xsd:double
+	] 
+
+.

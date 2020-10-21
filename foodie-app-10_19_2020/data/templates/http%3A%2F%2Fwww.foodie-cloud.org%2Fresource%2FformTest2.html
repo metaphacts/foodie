@@ -1,0 +1,115 @@
+
+      <bs-panel>
+        <semantic-form new-subject-template='http://www.example.com/with-features/{{id}}'
+          post-action='redirect'
+          browser-persistence=true
+          form-id='example-4'
+          fields='[
+            
+            {
+              "id": "spatial",
+              "label": "Spatial Coverage",
+              "description": "The spatial coverage used in the dataset",
+              "xsdDatatype": "xsd:anyURI",
+              "minOccurs": "1",
+              "selectPattern": "
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX lcc-lr: <https://www.omg.org/spec/LCC/Languages/LanguageRepresentation/>
+                SELECT ?value ?label 
+                FROM <https://w3id.org/cybele/datasets/>
+                FROM <https://www.omg.org/spec/LCC/Countries/UN-M49-RegionCodes/> 
+								FROM <http://w3id.org/foodie/open/gadm36/level0#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level1#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level2#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level3#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level4#> 
+								FROM <http://w3id.org/foodie/open/gadm36/level5#>
+                WHERE {
+                  $subject <http://purl.org/dc/terms/spatial> ?value .
+                  ?value rdfs:label ?label
+                }
+              ",
+              "insertPattern": "INSERT { GRAPH <https://w3id.org/cybele/datasets/> { $subject <http://purl.org/dc/terms/spatial> ?value } } WHERE {}",
+              "deletePattern": "DELETE { GRAPH <https://w3id.org/cybele/datasets/> { $subject <http://purl.org/dc/terms/spatial> ?value } } WHERE {}",
+              "autosuggestionPattern": "
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX lcc-cr: <https://www.omg.org/spec/LCC/Countries/CountryRepresentation/>
+PREFIX geo: <http://www.geonames.org/ontology#>
+SELECT $value $label 
+FROM <https://www.omg.org/spec/LCC/Countries/UN-M49-RegionCodes/> 
+FROM <http://w3id.org/foodie/open/gadm36/level0#> 
+FROM <http://w3id.org/foodie/open/gadm36/level1#> 
+FROM <http://w3id.org/foodie/open/gadm36/level2#> 
+FROM <http://w3id.org/foodie/open/gadm36/level3#> 
+FROM <http://w3id.org/foodie/open/gadm36/level4#> 
+FROM <http://w3id.org/foodie/open/gadm36/level5#> 
+WHERE {
+    ?value a ?type ;
+  		rdfs:label ?label .
+  FILTER (?type in (lcc-cr:GeographicRegion, geo:Feature)) .
+  FILTER (<bif:contains>(?label,\"?token\")) .
+}
+              "
+            }
+          ]'>
+          
+         
+          <semantic-form-autocomplete-input for='spatial' placeholder='Search or create a spatial coverage...'>
+            <semantic-form new-subject-template='https://w3id.org/cybele/spatial/geometry/{{{UUID}}}' fields='[
+              {
+                "id": "spatial",
+                "label": "Spatial Coverage",
+                "xsdDatatype": "xsd:string",
+                "range": "<http://www.opengis.net/ont/geosparql#asWKT>",                  
+                "minOccurs": "1",
+                "maxOccurs": "1",
+                "selectPattern": "
+                  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                  SELECT ?value FROM <https://w3id.org/cybele/datasets/> WHERE { $subject <http://www.w3.org/ns/locn#geometry> ?value }
+                ",
+                "insertPattern": "
+                  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                  INSERT { GRAPH <https://w3id.org/cybele/datasets/> { $subject <http://www.w3.org/ns/locn#geometry> ?value} }  WHERE {}
+                ",
+                "deletePattern": "
+                  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                  DELETE { GRAPH <https://w3id.org/cybele/datasets/> { $subject <http://www.w3.org/ns/locn#geometry> ?value} } WHERE {}
+                "
+              },
+              {
+                "id": "typeS",
+                "label": "Type",
+                "xsdDatatype": "xsd:anyURI",
+                "minOccurs": "1",
+                "maxOccurs": "1",
+                "selectPattern": "SELECT $value FROM <https://w3id.org/cybele/datasets/> WHERE { $subject a $value }",
+                "insertPattern": "INSERT { GRAPH <https://w3id.org/cybele/datasets/> { $subject a $value } } WHERE {}",
+                "deletePattern": "DELETE { GRAPH <https://w3id.org/cybele/datasets/> { $subject a $value } } WHERE {}"
+              },
+              {
+                "id": "label",
+                "label": "Label",
+                "xsdDatatype": "xsd:string",
+                "minOccurs": "1",
+                "maxOccurs": "1",
+                "selectPattern": "SELECT $value FROM <https://w3id.org/cybele/datasets/> WHERE { $subject rdfs:label $value }",
+                "insertPattern": "INSERT { GRAPH <https://w3id.org/cybele/datasets/> { $subject rdfs:label $value } } WHERE {}",
+                "deletePattern": "DELETE { GRAPH <https://w3id.org/cybele/datasets/> { $subject rdfs:label $value } } WHERE {}"
+              }                                                                                                
+              ]'>
+              <semantic-form-hidden-input for='typeS' default-value='http://purl.org/dc/terms/Location'></semantic-form-hidden-input>
+              <semantic-form-hidden-input for='label' default-value='{{{UUID}}}'></semantic-form-hidden-input>
+              <semantic-form-text-input for='spatial'></semantic-form-text-input>
+              
+              <semantic-form-errors></semantic-form-errors>
+              <button name='submit' class='btn btn-default'>Create Spatial</button>
+              <button name='reset' class='btn btn-default'>Reset Spatial</button>
+            </semantic-form>
+          </semantic-form-autocomplete-input>
+          
+          <semantic-form-errors></semantic-form-errors>
+          <!-- save and reset button for form -->
+          <button name='submit' class='btn btn-default'>Save</button>
+          <button name='reset' class='btn btn-default'>Reset</button>
+        </semantic-form>
+      </bs-panel>

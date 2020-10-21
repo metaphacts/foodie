@@ -1,0 +1,678 @@
+PREFIX sp: <http://spinrdf.org/sp#>
+PREFIX spin: <http://spinrdf.org/spin#>
+PREFIX spl: <http://spinrdf.org/spl#>
+PREFIX osm: <http://www.metaphacts.com/ontologies/osm#>
+PREFIX geosp: <http://www.opengis.net/ont/geosparql#>
+PREFIX ephedra: <http://www.metaphacts.com/ontologies/platform/ephedra#>
+PREFIX sail: <http://www.openrdf.org/config/sail#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sb: <http://geo.spacebel.be/opensearch#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX os: <http://a9.com/-/spec/opensearch/1.1/>
+PREFIX eo: <http://a9.com/-/opensearch/extensions/eo/1.0/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX time: <http://a9.com/-/opensearch/extensions/time/1.0/>
+PREFIX geo: <http://a9.com/-/opensearch/extensions/geo/1.0/>
+PREFIX semantic: <http://a9.com/-/opensearch/extensions/semantic/1.0/>
+PREFIX sru: <http://a9.com/-/opensearch/extensions/sru/2.0/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX eop: <http://www.opengis.net/eop/2.1/>
+PREFIX atom: <http://www.w3.org/2005/Atom/>
+PREFIX vard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX ical: <http://www.w3.org/2002/12/cal/ical#>
+PREFIX oml: <http://def.seegrid.csiro.au/ontology/om/om-lite#>
+PREFIX eop: <http://www.opengis.net/eop/2.1/>
+PREFIX schema: <http://schema.org/>
+PREFIX : <http://www.metaphacts.com/ontologies/platform/service/custom#>
+
+ephedra:spacebelOS a ephedra:Service ;
+	sail:sailType "metaphacts:RESTService" ;
+	rdfs:label "A wrapper for the geo.spacebel opensearch API." ;
+	ephedra:hasSPARQLPattern (
+# INPUTS	
+		[
+			sp:subject :_results ;
+			sp:predicate os:startRecord ;
+			sp:object :_startRecord
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate os:maximumRecords ;
+			sp:object :_maximumRecords
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:platform ;
+			sp:object :_platform
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate os:httpAccept ;
+			sp:object :_httpAccept
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:parentIdentifier ;
+			sp:object :_parentIdentifier
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dc:subject ;
+			sp:object :_subject
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate os:query ;
+			sp:object :_query
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate os:startPage ;
+			sp:object :_startPage
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate time:start ;
+			sp:object :_startDate
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate time:end ;
+			sp:object :_endDate
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dc:type ;
+			sp:object :_type
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dc:title ;
+			sp:object :_title
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dc:publisher ;
+			sp:object :_publisher
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:box ;
+			sp:object :_bbox
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:name ;
+			sp:object :_name
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:lat ;
+			sp:object :_lat
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:lon ;
+			sp:object :_lon
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:radius ;
+			sp:object :_radius
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:uid ;
+			sp:object :_uid
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate geo:geometry ;
+			sp:object :_geometry
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:organisationName ;
+			sp:object :_organisationName
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:instrument ;
+			sp:object :_instrument
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:processingLevel ;
+			sp:object :_processingLevel
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:useLimitation ;
+			sp:object :_useLimitation
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eo:otherConstraint ;
+			sp:object :_otherConstraint
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate semantic:classifiedAs ;
+			sp:object :_classifiedAs
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate sru:facetLimit ;
+			sp:object :_facetLimit
+		]
+# OUTPUTS
+    [
+			sp:subject :_results ;
+			sp:predicate dct:title ;
+			sp:object :_titleOutput
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dct:description ;
+			sp:object :_description
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dct:spatial ;
+			sp:object :_spatial
+		]
+    [
+			sp:subject :_results ;
+			sp:predicate dcat:keyword ;
+			sp:object :_keywords
+		]
+    [
+			sp:subject :_results ;
+			sp:predicate dcat:theme ;
+			sp:object :_theme
+		]
+		
+		[
+			sp:subject :_results ;
+			sp:predicate os:id ;
+			sp:object :_id
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate os:type ;
+			sp:object :_typeOutput
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dct:identifier ;
+			sp:object :_identifier
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate void:openSearchDescription ;
+			sp:object :_openSearchDescription
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dct:modified ;
+			sp:object :_modified
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eop:platform ;
+			sp:object :_platformOutput
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate eop:instrument ;
+			sp:object :_instrumentOutput
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate ical:dtstart ;
+			sp:object :_dtstart
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dct:conformsTo ;
+			sp:object :_conformsTo
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate dcat:contactPoint ;
+			sp:object :_contactPoint
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate atom:alternate ;
+			sp:object :_alternate
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate atom:describedby ;
+			sp:object :_describedby
+		]
+		[
+			sp:subject :_results ;
+			sp:predicate atom:search ;
+			sp:object :_search
+		]
+    
+    [
+			sp:subject :_results ;
+			sp:predicate oml:featureOfInterest ;
+			sp:object :_featureOfInterest
+		]
+    [
+			sp:subject :_results ;
+			sp:predicate eop:productQualityStatus ;
+			sp:object :_productQualityStatus
+		]
+    [
+			sp:subject :_results ;
+			sp:predicate eop:acquisitionType ;
+			sp:object :_acquisitionType
+		]
+    [
+			sp:subject :_results ;
+			sp:predicate schema:image ;
+			sp:object :_image
+		]
+    [
+			sp:subject :_results ;
+			sp:predicate schema:url ;
+			sp:object :_url
+		]
+	) ;
+# INPUTS	
+	spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "start record" ;
+		spl:predicate :_startRecord ;
+		spl:defaultValue "1"^^xsd:integer ;
+		spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "maximum records" ;
+		spl:predicate :_maximumRecords ;
+		spl:defaultValue "10"^^xsd:integer ;
+		spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "platform" ;
+		spl:predicate :_platform ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "httpAccept" ;
+		spl:predicate :_httpAccept ;
+		spl:defaultValue "application%2Fld%2Bjson"^^xsd:string ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "parent identifier" ;
+		spl:predicate :_parentIdentifier ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "subject" ;
+		spl:predicate :_subject ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "query" ;
+		spl:predicate :_query ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "start page" ;
+		spl:predicate :_startPage ;
+		#spl:defaultValue "1"^xsd:integer ;
+		spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "start date" ;
+		spl:predicate :_startDate ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "end date" ;
+		spl:predicate :_endDate ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "type" ;
+		spl:predicate :_type ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "title" ;
+		spl:predicate :_title ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "publisher" ;
+		spl:predicate :_publisher ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "bbox" ;
+		spl:predicate :_bbox ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "name" ;
+		spl:predicate :_name ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "latitude" ;
+		spl:predicate :_lat ;
+		spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "longitude" ;
+		spl:predicate :_lon ;
+		spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "radius" ;
+		spl:predicate :_radius ;
+		spl:valueType xsd:integer
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "uid" ;
+		spl:predicate :_uid ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "geometry" ;
+		spl:predicate :_geometry ;
+		spl:valueType geo:wktLiteral
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "organisation name" ;
+		spl:predicate :_organisationName ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "instrument" ;
+		spl:predicate :_instrument ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "processing level" ;
+		spl:predicate :_processingLevel ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "use limitation" ;
+		spl:predicate :_useLimitation ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "other constraint" ;
+		spl:predicate :_otherConstraint ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "classified as" ;
+		spl:predicate :_classifiedAs ;
+		spl:valueType xsd:string
+    ] ;
+    spin:constraint
+	[
+		a spl:Argument ;
+		rdfs:comment "facet limit" ;
+		spl:predicate :_facetLimit ;
+		spl:valueType xsd:integer
+    ] ;
+# OUTPUTS
+    spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "results" ;
+		spl:predicate :_results ;
+		spl:valueType rdfs:Resource;
+		ephedra:jsonPath "$.@graph[0].rdfs:member[*]"
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "title" ;
+		spl:predicate :_titleOutput ;
+		spl:valueType xsd:string;
+		ephedra:jsonPath "$.dct:title"
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "spatial info" ;
+		spl:predicate :_spatial ;
+		ephedra:jsonPath "$.dct:spatial" ;
+		spl:valueType geo:wktLiteral
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "description" ;
+		spl:predicate :_description ;
+		ephedra:jsonPath "$.dct:description" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "keywords" ;
+		spl:predicate :_keywords ;
+		ephedra:jsonPath "$.dcat:keyword" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "theme" ;
+		spl:predicate :_theme ;
+		ephedra:jsonPath "$.dcat:theme[0].@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "id" ;
+		spl:predicate :_id ;
+		ephedra:jsonPath "$.@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "type output" ;
+		spl:predicate :_typeOutput ;
+		ephedra:jsonPath "$.@type" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "identifier" ;
+		spl:predicate :_identifier ;
+		ephedra:jsonPath "$.dct:identifier" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "openSearch description" ;
+		spl:predicate :_openSearchDescription ;
+		ephedra:jsonPath "$.void:openSearchDescription.@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "modified" ;
+		spl:predicate :_modified ;
+		ephedra:jsonPath "$.dct:modified" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "platform" ;
+		spl:predicate :_platformOutput ;
+		ephedra:jsonPath "$.eop:platform[0].@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "instrument" ;
+		spl:predicate :_instrumentOutput ;
+		ephedra:jsonPath "$.eop:instrument[0].@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "date start" ;
+		spl:predicate :_dtstart ;
+		ephedra:jsonPath "$.ical:dtstart" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "conforms to" ;
+		spl:predicate :_conformsTo ;
+		ephedra:jsonPath "$.dct:conformsTo.@value" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "contact point" ;
+		spl:predicate :_contactPoint ;
+		ephedra:jsonPath "$.dcat:contactPoint.vcard:hasEmail.@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "alternate" ;
+		spl:predicate :_alternate ;
+		ephedra:jsonPath "$.atom:alternate.@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "described by" ;
+		spl:predicate :_describedby ;
+		ephedra:jsonPath "$.atom:describedby.@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "search" ;
+		spl:predicate :_search ;
+		ephedra:jsonPath "$.atom:search.@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	
+	[
+		a spin:Column ;
+		rdfs:comment "feature of interest" ;
+		spl:predicate :_featureOfInterest ;
+		ephedra:jsonPath "$.oml:featureOfInterest" ;
+		spl:valueType geo:wktLiteral
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "Product quality status" ;
+		spl:predicate :_productQualityStatus ;
+		ephedra:jsonPath "$.eop:productQualityStatus" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "Acquisition Type" ;
+		spl:predicate :_acquisitionType ;
+		ephedra:jsonPath "$.eop:acquisitionType" ;
+		spl:valueType xsd:string
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "Image" ;
+		spl:predicate :_image ;
+		ephedra:jsonPath "$.oml:result.media:group[0].@id" ;
+		spl:valueType xsd:anyURI
+	] ;
+	spin:column
+	[
+		a spin:Column ;
+		rdfs:comment "URL" ;
+		spl:predicate :_url ;
+		ephedra:jsonPath "$.oml:result.media:group[2].@id" ;
+		spl:valueType xsd:anyURI
+	] 
+	
+.
