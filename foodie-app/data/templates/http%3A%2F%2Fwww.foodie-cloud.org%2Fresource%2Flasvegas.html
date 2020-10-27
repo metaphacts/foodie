@@ -21,7 +21,7 @@ WHERE
   }
   UNION
   { 
-    SELECT ?Resource ?Label ?resource_type (" " as ?rating) (?Coordinates as ?wkt) ("rgba(56, 178, 194, 0.44)" as ?color) 
+    SELECT ?Resource ?Label (group_concat(concat(?resource_type) ; separator = ", ") as ?resource_type) ("N/A" as ?rating) (?Coordinates as ?wkt) ("rgba(235,247,7,1)" as ?color) 
     WHERE {
       ?Resource a ?resource_type .
       ?Resource rdfs:label ?Label .
@@ -29,11 +29,12 @@ WHERE
       FILTER(<bif:st_intersects> (?Coordinates, <bif:st_geomFromText>("POLYGON((-115.205009 36.197481, -115.090724 36.197481, -115.090724 36.143304, -115.205009 36.143304, -115.205009 36.197481))"))) .
       FILTER NOT EXISTS { ?Resource a <http://schema.org/LocalBusiness> }
     }
+    GROUP BY ?Resource ?Label ?Coordinates
   }
 }
         '
        fix-zoom-level=16
-       tuple-template='<div><semantic-link uri="{{Resource.value}}">{{Label.value}}</semantic-link><br> Type: <semantic-link uri="{{resource_type.value}}"></semantic-link> <br>Rating: {{rating.value}} </div>'
+       tuple-template='<div><semantic-link uri="{{Resource.value}}">{{Label.value}}</semantic-link><br> Type: {{resource_type.value}} <br>Rating: {{rating.value}} </div>'
       ></semantic-map>
     </div>
   </div>
