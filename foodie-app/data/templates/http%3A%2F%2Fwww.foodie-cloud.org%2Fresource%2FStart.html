@@ -61,7 +61,7 @@ SELECT DISTINCT ?uri (SUBSTR(group_concat(DISTINCT ?label1 ; separator = "; "),0
 WHERE {
          ?uri a ?class1 .
          ?uri ?property ?label1 .
-         FILTER (<bif:contains>(?label1,"\"?token\"")) .
+         FILTER (<bif:contains>(?label1,?__token__)) .
          FILTER(?class1 NOT IN (<http://w3id.org/foodie/atlas#UrbanAtlasLandUse>, <http://w3id.org/foodie/otm#RoadLink>,<http://www.w3.org/2008/05/skos-xl#Label>,<http://purl.org/stuff/rev#Review>)).
          FILTER(strafter(str(?class1), "#")>"A").
      } 
@@ -69,18 +69,16 @@ GROUP BY ?uri
 ORDER BY DESC(?class)
 LIMIT 50  
   '
-    search-term-variable="token"
-    resource-selection='{
-    "resourceBindingName":"uri",
-    "template":"<span style=\"color: blue;\" title=\"{{uri.value}}\">{{label.value}}...({{class.value}})</span>"
-  }'
+    resource-binding-name='uri'
+    template='<span style="color: blue;" title="{{uri.value}}">{{label.value}}...({{class.value}})</span>'
     input-placeholder='Search for something e.g. "Berlin"'
+    tokenize-lucene-query=false
 >
 </semantic-simple-search>
 
 <br>
 <div style="text-align:center; font-size:14px;">
-    See some maps belows:
+    See some maps below:
   <li><semantic-link uri="http://www.foodie-cloud.org/resource/ESA-datasets">EO Linked Data</semantic-link></li>
   <li><semantic-link uri="http://www.foodie-cloud.org/resource/AGROVOC-crops">AgroDataCube as Linked Data</semantic-link></li>
   <li><semantic-link uri="http://www.foodie-cloud.org/resource/CYBELE-metadata-form">CYBELE Metadata Form</semantic-link></li>
@@ -88,7 +86,7 @@ LIMIT 50
      <li><semantic-link uri="http://www.foodie-cloud.org/resource/CatchDataNorway_v2">Visualisation of catch records from Norway (2014-2019)</semantic-link></li>
      <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-GADM-country">Points of Interest for any country or subdivions (cities, provinces, etc.)</semantic-link></li>
      <li><semantic-link uri="http://www.foodie-cloud.org/resource/TerrasGauda-plot1">Management Zones in Terras Gauda (Production 2015)</semantic-link></li>
-     <li><semantic-link uri="http://metaphactory.foodie-cloud.org/resource/:lasvegas">Points of interests in Las Vegas, Nevada, USA, including YELP reviews</semantic-link></li>
+     <li><semantic-link uri="http://metaphactory.foodie-cloud.org/resource/lasvegas">Points of interests in Las Vegas, Nevada, USA, including YELP reviews</semantic-link></li>
   <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-poznan-stareMiasto">Points of interests in Poznan (Stare Miasto)</semantic-link></li>
      <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-praha-stareMesto">Points of interests in Prague (Staré Město)</semantic-link></li>
      <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-madrid-centro">Points of interests in Madrid (centro)</semantic-link></li>
