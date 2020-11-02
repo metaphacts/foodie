@@ -1,12 +1,11 @@
 
-
    <div id="logo" class="foodie-logo" style="text-align:left" >
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" target="_blank"><img src=https://www.databio.eu/wp-content/uploads/2017/03/logo_m.png height="85"/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/" target="_blank"><img src=https://www.foodie-cloud.org/images/logo.png height="60"/></a>
      
      
    </div>
    <div id="intro" class="intro-title" style="text-align:center" >
-       <a href="https://foodie.grapphs.com/" target="_blank"><img src=http://dss.foodie-cloud.org/images/foodie-banner.jpg /></a>
+       <a href="https://foodie.metaphacts.cloud/" target="_blank"><img src=http://dss.foodie-cloud.org/images/foodie-banner.jpg /></a>
   	<h2>Welcome to DATABIO-FOODIE metaphactory</h2>
   </div>
   <div style="text-align:center; font-size:14px;">
@@ -14,34 +13,87 @@
   </div>
   <br>
   <br>
+  <!-- To query only NUTS entities
+		SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class) WHERE {
+     ?uri a ?class1 ; a <http://rdfdata.eionet.europa.eu/ramon/ontology/NUTSRegion> .
+     ?uri ?property ?label1 .
+     FILTER (<bif:contains>(?label1,"\"?token\"")) 
+    } GROUP BY ?uri LIMIT 50
+  -->
+
+<!-- UNION NOT WORKING TOKEN EVALUATED FIRST TIME ONLY
+SELECT * WHERE
+{ 
+  {
+    SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class) 
+    WHERE {
+         ?uri a ?class1 .
+         ?uri ?property ?label1 .
+         FILTER (<bif:contains>(?label1,"\"?token\"")) .
+         FILTER(CONTAINS(STR(?class1),str(<http://www.w3.org/2004/02/skos/core#Concept>)) || CONTAINS(STR(?class1),str(<http://www.geonames.org/ontology#Feature>))) .
+     } GROUP BY ?uri LIMIT 10
+  }
+  UNION
+  {
+     SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class) 
+     WHERE {
+         ?uri a ?class1 .
+         ?uri ?property ?label1 .
+         FILTER (<bif:contains>(?label1,"\"?token\"")) .
+         FILTER(!CONTAINS(STR(?class1),str(<http://w3id.org/foodie/atlas#UrbanAtlasLandUse>))).
+         FILTER(!CONTAINS(STR(?class1),str(<http://w3id.org/foodie/otm#RoadLink>))).
+     } GROUP BY ?uri LIMIT 40
+  }
+}
+-->
+<!--working
+SELECT DISTINCT ?uri (group_concat(DISTINCT ?label1 ; separator = "; ") AS ?label) (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class) 
+     WHERE {
+         ?uri a ?class1 .
+         ?uri ?property ?label1 .
+         FILTER (<bif:contains>(?label1,"\"?token\"")) .
+         FILTER(?class1 NOT IN (<http://w3id.org/foodie/atlas#UrbanAtlasLandUse>, <http://w3id.org/foodie/otm#RoadLink>)).
+     } GROUP BY ?uri LIMIT 50
+-->
   <semantic-simple-search
     query='
-    SELECT distinct ?uri ?label ?class WHERE {
-     ?uri a ?class .
-     ?uri ?property ?label .
-     FILTER (<bif:contains>(?label,"\"?token\"")) 
-    } LIMIT 50'
-    search-term-variable="token"
-    resource-selection='{
-    "resourceBindingName":"uri",
-    "template":"<span style=\"color: blue;\" title=\"{{uri.value}}\">{{label.value}} ({{class.value}})</span>"
-  }'
-    input-placeholder='Search for something e.g. "Sevilla"'
+SELECT DISTINCT ?uri (SUBSTR(group_concat(DISTINCT ?label1 ; separator = "; "),0,50) AS ?label) (group_concat(DISTINCT ?class1 ; separator = "; ") AS ?class) 
+WHERE {
+         ?uri a ?class1 .
+         ?uri ?property ?label1 .
+         FILTER (<bif:contains>(?label1,?__token__)) .
+         FILTER(?class1 NOT IN (<http://w3id.org/foodie/atlas#UrbanAtlasLandUse>, <http://w3id.org/foodie/otm#RoadLink>,<http://www.w3.org/2008/05/skos-xl#Label>,<http://purl.org/stuff/rev#Review>)).
+         FILTER(strafter(str(?class1), "#")>"A").
+     } 
+GROUP BY ?uri 
+ORDER BY DESC(?class)
+LIMIT 50  
+  '
+    resource-binding-name='uri'
+    template='<span style="color: blue;" title="{{uri.value}}">{{label.value}}...({{class.value}})</span>'
+    input-placeholder='Search for something e.g. "Berlin"'
+    tokenize-lucene-query=false
 >
 </semantic-simple-search>
 
 <br>
 <div style="text-align:center; font-size:14px;">
-    See some maps belows:
+    See some maps below:
+  <li><semantic-link uri="http://www.foodie-cloud.org/resource/ESA-datasets">EO Linked Data</semantic-link></li>
+  <li><semantic-link uri="http://www.foodie-cloud.org/resource/AGROVOC-crops">AgroDataCube as Linked Data</semantic-link></li>
+  <li><semantic-link uri="http://www.foodie-cloud.org/resource/CYBELE-metadata-form">CYBELE Metadata Form</semantic-link></li>
      <!--<li><semantic-link uri="TerrasGauda-site1">Plots in Terras Gauda</semantic-link></li>-->
-     <li><semantic-link uri=":TerrasGauda-plot1">Management Zones in Terras Gauda (Production 2015)</semantic-link></li>
-     <li><semantic-link uri=":SPOI-poznan-stareMiasto">Points of interests in Poznan (Stare Miasto)</semantic-link></li>
-     <li><semantic-link uri=":SPOI-praha-stareMesto">Points of interests in Prague (Staré Město)</semantic-link></li>
-     <li><semantic-link uri=":SPOI-madrid-centro">Points of interests in Madrid (centro)</semantic-link></li>
-     <li><semantic-link uri=":SPOI-berlin-mitte">Points of interests in Berlin (Mitte)</semantic-link></li>
-     <li><semantic-link uri=":SPOI-poznan">Points of interests in Poznan</semantic-link></li>
-     <li><semantic-link uri=":SPOI-praha">Points of interests in Prague</semantic-link></li>
-     <li><semantic-link uri=":SPOI-madrid">Points of interests in Madrid</semantic-link></li>
-     <li><semantic-link uri=":SPOI-berlin">Points of interests in Berlin</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/CatchDataNorway_v2">Visualisation of catch records from Norway (2014-2019)</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-GADM-country">Points of Interest for any country or subdivions (cities, provinces, etc.)</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/TerrasGauda-plot1">Management Zones in Terras Gauda (Production 2015)</semantic-link></li>
+     <li><semantic-link uri="http://metaphactory.foodie-cloud.org/resource/lasvegas">Points of interests in Las Vegas, Nevada, USA, including YELP reviews</semantic-link></li>
+  <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-poznan-stareMiasto">Points of interests in Poznan (Stare Miasto)</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-praha-stareMesto">Points of interests in Prague (Staré Město)</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-madrid-centro">Points of interests in Madrid (centro)</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-berlin-mitte">Points of interests in Berlin (Mitte)</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-poznan">Points of interests in Poznan</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-praha">Points of interests in Prague</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-madrid">Points of interests in Madrid</semantic-link></li>
+     <li><semantic-link uri="http://www.foodie-cloud.org/resource/SPOI-berlin">Points of interests in Berlin</semantic-link></li>
   		 
   </div>

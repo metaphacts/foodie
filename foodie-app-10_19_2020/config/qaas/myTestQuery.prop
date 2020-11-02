@@ -1,5 +1,0 @@
-iri = http://metaphactory.foodie-cloud.org/container/queryTemplateContainer/myquery
-aclPermission = qaas:execute:qaas:execute:*
-disabled = false
-responseformat = application/sparql-results+json
-publisher = http://www.metaphacts.com/resource/user/admin
